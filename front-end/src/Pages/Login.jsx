@@ -1,5 +1,30 @@
-import React, { useEffect } from 'react';
-import apiCall from '../Helpers/apiCall';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+class Login extends Component {
+  state = {
+    
+  }
+
+
+   handleChange() =>  {
+
+  }
+
+  render() {
+    return (
+      <h1>Hello World Login</h1>
+    );
+  }
+}
+
+Login.propTypes = {
+
+};
+
+export default Login;
+
+/* import apiCall from '../Helpers/apiCall';
 
 export default function Login() {
   useEffect(() => {
@@ -40,4 +65,4 @@ export default function Login() {
       </form>
     </div>
   );
-}
+} */
