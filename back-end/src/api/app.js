@@ -1,6 +1,6 @@
 const express = require('express');
 const users = require('./controllers/userController');
-
+const salesRouter = require('');
 const app = express();
 app.use(express.json());
 
@@ -16,5 +16,6 @@ app.use(accessControl);
 app.get('/coffee', (_req, res) => res.status(418).end());
 app.get('/', (req, res) => res.json({ message: 'backed rodando' }));
 app.get('/user', users);
+app.use('/sales', salesRouter);
 
 module.exports = app;
