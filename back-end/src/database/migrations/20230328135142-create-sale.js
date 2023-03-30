@@ -32,7 +32,7 @@ module.exports = {
         }
       },
       total_price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL(9,2),
         allowNull: false,
       },
       delivery_address: {

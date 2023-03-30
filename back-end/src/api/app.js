@@ -1,6 +1,7 @@
 const express = require('express');
 const users = require('./controllers/userController');
-const salesRouter = require('');
+const salesRouter = require('./routes/saleRouter');
+
 const app = express();
 app.use(express.json());
 
