@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from '../Components/Header';
 
-export default class Checkout extends Component {
-  render() {
-    return (
-      <main>
-        <Header />
-      </main>
-    );
-  }
+export default function Checkout() {
+  return (
+    <main>
+      <Header />
+    </main>
+  );
 }
