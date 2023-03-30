@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import MyContext from '../Context/MyContext';
 
 export default function ProductCard({ id, name, price, urlImage }) {
+  const { quantity, setQuantity } = useContext(MyContext);
+
+  const handleClick = (event) => {
+    const { target } = event;
+
+    if (target.name === 'remove' && quantity !== 0) {
+      setQuantity(quantity - 1);
+    }
+
+    if (target.name === 'add') {
+      setQuantity(quantity + 1);
+    }
+  };
+
   return (
     <section>
       <h3
