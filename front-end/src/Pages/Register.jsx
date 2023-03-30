@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import GenericInput from '../Components';
 /* import PropTypes from 'prop-types'; */
 /* import { Link } from 'react-router-dom'; */
 
-class Login extends Component {
+class Register extends Component {
   state = {
+    name: '',
     email: '',
     password: '',
     /* role: '', */
@@ -20,38 +20,41 @@ class Login extends Component {
   };
 
   render() {
-    const { email, password } = this.state;
+    const { name, email, password } = this.state;
     return (
       <form action="" className="loginForm">
         <h1>Delivery da dona Tereza</h1>
+        <h2>Cadastro</h2>
+        <GenericInput
+          type={ name }
+          labelText="Nome"
+          handleChange={ this.handleChange }
+          dataTestId="common_register__input-name"
+        />
         <GenericInput
           type={ email }
-          labelText="Login"
+          labelText="Email"
           handleChange={ this.handleChange }
-          dataTestId="common_login__input-email"
+          dataTestId="common_register__input-email"
         />
         <GenericInput
           type={ password }
-          labelText="Senha"
+          labelText="Login"
           handleChange={ this.handleChange }
-          dataTestId="common_login__input-password"
+          dataTestId="common_register__input-password"
         />
+
+        <label htmlFor="soul">
+          <input type="checkbox" name="soul" />
+          Você aceita os termos de dona Tereza?
+        </label>
 
         <button
           type="submit"
           data-testid="common_login__button-login"
         >
-          Login
+          CADASTRAR
         </button>
-
-        <Link to="/register">Ainda não tenho conta</Link>
-        {/* <button
-          type="button"
-          data-testid="common_login__button-register"
-          onClick={ () => { <Link to="/register" />; } }
-        >
-          Ainda não tenho conta
-        </button> */}
 
         <span
           data-testid="common_login__element-invalid-email"
@@ -68,4 +71,4 @@ class Login extends Component {
 
 }; */
 
-export default Login;
+export default Register;
