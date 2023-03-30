@@ -1,7 +1,10 @@
 const express = require('express');
-const users = require('./controllers/userController');
+const cors = require('cors');
+const routes = require('./Router/userRoutes');
+const productRouter = require('./Router/productRoutes');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const accessControl = (_req, res, next) => {
@@ -12,9 +15,7 @@ const accessControl = (_req, res, next) => {
 };
 
 app.use(accessControl);
-
-app.get('/coffee', (_req, res) => res.status(418).end());
-app.get('/', (req, res) => res.json({ message: 'backed rodando' }));
-app.get('/user', users);
+app.use(routes);
+app.use(productRouter);
 
 module.exports = app;
