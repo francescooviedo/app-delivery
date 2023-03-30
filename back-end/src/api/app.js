@@ -1,4 +1,6 @@
 const express = require('express');
+
+const salesRouter = require('./routes/saleRouter');
 const cors = require('cors');
 const routes = require('./Router/userRoutes');
 const productRouter = require('./Router/productRoutes');
@@ -15,6 +17,8 @@ const accessControl = (_req, res, next) => {
 };
 
 app.use(accessControl);
+
+app.use('/sales', salesRouter);
 app.use(routes);
 app.use(productRouter);
 
