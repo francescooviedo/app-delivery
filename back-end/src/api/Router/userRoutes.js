@@ -16,7 +16,7 @@ router.get(`${users}`, getUserByIdHandler);
 
 router.get('/login', validateLoginHandler);
 // router.put(`${users}`, updateUserHandler);
-
+// app
 // router.delete(`${users}`, deleteUserHandler);
 
 module.exports = router;
