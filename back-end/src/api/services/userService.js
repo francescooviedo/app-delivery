@@ -1,18 +1,59 @@
+const { 
+  comparePassword,
+  generateToken,
+ } = require('../utils/cryptoJWT');
+
 const { User } = require('../../database/models');
-// const createUser = (displayName, email, password) => User.create({ displayName, email, password });
 
-const getUsers = () => User.findAll();
+const createUser = async (userData) => {
+  const user = await User.create(userData);
+  return user;
+};
 
-// const getByUsername = (username) => User.findOne({ where: { username } });
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  return user;
+};
 
-// const getUserByEmail = (email) => User.findOne({ where: { email } });
+const getByEmail = async (email) => {
+  const user = await User.findOne({ where: { email } });
+  return user;
+};
 
-// const getByUserId = (userId) => User.findByPk(userId);
+const getByEmailandPassword = async (email, password) => {
+  console.log(email, password);
+  const user = await User.findOne({ where: { email } });
+  console.log(user.dataValues);
+  // const { passwordMD5 } = user.dataValues.password;
+  const validate = comparePassword(password, user.dataValues.password);
+  console.log('validate', validate);
+  if (!validate) {
+    throw new Error('Invalid password');
+  }
+  const token = generateToken(user.id);
+  return token;
+};
+// const updateUser = async (id, userData) => {
+//   const [, [user]] = await User.update(userData, {
+//     returning: true,
+//     where: { id },
+//   });
+//   return user;
+// };
+
+// const deleteUser = async (id) => {
+//   const user = await getUserById(id);
+//   await user.destroy();
+// };
+
+// aqui
 
 module.exports = {
-  // createUser,
-  getUsers,
-  // getByUsername,
-  // getByUserId,
-  // getUserByEmail,
+  getByEmailandPassword,
+  createUser,
+  getByEmail,
+  getUserById,
+  // updateUser,
+  // deleteUser,
+ 
 };
