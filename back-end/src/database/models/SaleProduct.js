@@ -1,4 +1,4 @@
-function SaleProductModel (sequelize, DataTypes) {
+const SaleProductModel = (sequelize, DataTypes) => {
   const SaleProduct = sequelize.define('SaleProduct', {
     id: {
       type: DataTypes.INTEGER,
@@ -45,4 +45,7 @@ function SaleProductModel (sequelize, DataTypes) {
       otherKey: 'sale_id'
     });
   }
+  return SaleProduct;
 }
+
+module.exports = SaleProductModel;
