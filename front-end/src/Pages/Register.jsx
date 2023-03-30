@@ -8,6 +8,7 @@ class Register extends Component {
     name: '',
     email: '',
     password: '',
+    termosDeUso: false,
     /* role: '', */
   };
 
@@ -20,32 +21,35 @@ class Register extends Component {
   };
 
   render() {
-    const { name, email, password } = this.state;
+    const { name, email, password, termosDeUso } = this.state;
     return (
       <form action="" className="loginForm">
         <h1>Delivery da dona Tereza</h1>
         <h2>Cadastro</h2>
         <GenericInput
-          type={ name }
+          type="name"
+          value={ name }
           labelText="Nome"
           handleChange={ this.handleChange }
           dataTestId="common_register__input-name"
         />
         <GenericInput
-          type={ email }
+          type="email"
+          value={ email }
           labelText="Email"
           handleChange={ this.handleChange }
           dataTestId="common_register__input-email"
         />
         <GenericInput
-          type={ password }
+          type="password"
+          value={ password }
           labelText="Login"
           handleChange={ this.handleChange }
           dataTestId="common_register__input-password"
         />
 
-        <label htmlFor="soul">
-          <input type="checkbox" name="soul" />
+        <label htmlFor="termosDeUso">
+          <input type="checkbox" name="termosDeUso" checked={ termosDeUso } />
           Você aceita os termos de dona Tereza?
         </label>
 

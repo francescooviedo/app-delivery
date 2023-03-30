@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import GenericInput from '../Components';
 /* import PropTypes from 'prop-types'; */
-/* import { Link } from 'react-router-dom'; */
 
 class Login extends Component {
   state = {
@@ -25,13 +24,15 @@ class Login extends Component {
       <form action="" className="loginForm">
         <h1>Delivery da dona Tereza</h1>
         <GenericInput
-          type={ email }
+          type="email"
+          value={ email }
           labelText="Login"
           handleChange={ this.handleChange }
           dataTestId="common_login__input-email"
         />
         <GenericInput
-          type={ password }
+          type="password"
+          value={ password }
           labelText="Senha"
           handleChange={ this.handleChange }
           dataTestId="common_login__input-password"
@@ -44,14 +45,13 @@ class Login extends Component {
           Login
         </button>
 
-        <Link to="/register">Ainda não tenho conta</Link>
-        {/* <button
-          type="button"
-          data-testid="common_login__button-register"
-          onClick={ () => { <Link to="/register" />; } }
-        >
-          Ainda não tenho conta
-        </button> */}
+        <Link to="/register">
+          <input
+            type="button"
+            value="Ainda não tenho conta"
+            data-testid="common_login__button-register"
+          />
+        </Link>
 
         <span
           data-testid="common_login__element-invalid-email"
