@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import GenericInput from '../Components';
-/* import PropTypes from 'prop-types'; */
+import { GenericInput, GenericSpan, GenericButton } from '../Components';
+import { emailValidation, passwordValidation } from '../utils/validations';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
-    /* role: '', */
+    lockEmail: true,
+    lockPassword: true,
+    errorMessageStatus: true,
   };
 
   handleChange = ({ target }) => {
@@ -16,10 +18,26 @@ class Login extends Component {
     this.setState({
       [name]: value,
     });
+    this.loginValidation(name, value);
+  };
+
+  loginValidation = (name, value) => {
+    if (name === 'email') {
+      const result = emailValidation(value);
+      this.setState({
+        lockEmail: !result,
+      });
+    }
+    if (name === 'password') {
+      const result = passwordValidation(value);
+      this.setState({
+        lockPassword: !result,
+      });
+    }
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, lockEmail, lockPassword, errorMessageStatus } = this.state;
     return (
       <form action="" className="loginForm">
         <h1>Delivery da dona Tereza</h1>
@@ -37,35 +55,27 @@ class Login extends Component {
           handleChange={ this.handleChange }
           dataTestId="common_login__input-password"
         />
-
-        <button
+        <GenericButton
           type="submit"
-          data-testid="common_login__button-login"
-        >
-          Login
-        </button>
-
+          value="Login"
+          disabled={ !(!lockEmail && !lockPassword) } // !lockEmail && !lockPassword ? false : true;
+          dataTestId="common_login__button-login"
+        />
         <Link to="/register">
-          <input
+          <GenericButton
             type="button"
             value="Ainda não tenho conta"
-            data-testid="common_login__button-register"
+            dataTestId="common_login__button-register"
           />
         </Link>
-
-        <span
-          data-testid="common_login__element-invalid-email"
-        >
-          Elemento oculto (Mensagem de erro)
-        </span>
-
+        <GenericSpan
+          hidden={ errorMessageStatus }
+          errorMessage="Email ou Senha invalidos"
+          dataTestId="common_login__element-invalid-email"
+        />
       </form>
     );
   }
 }
-
-/* Login.propTypes = {
-
-}; */
 
 export default Login;

@@ -1,3 +1,9 @@
 import GenericInput from './GenericInput';
+import GenericSpan from './GenericSpan';
+import GenericButton from './GenericButton';
 
-export default GenericInput;
+export {
+  GenericInput,
+  GenericSpan,
+  GenericButton,
+};
