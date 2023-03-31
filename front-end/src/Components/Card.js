@@ -1,18 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import ProductCard from '../Attachment/ProductCard';
-import { requestData } from '../Helpers/productsGet';
 import MyContext from '../Context/MyContext';
 
 export default function Card() {
-  const { products, setProducts } = useContext(MyContext);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await requestData();
-      setProducts(data);
-    };
-    fetchData();
-  }, [setProducts]);
+  const { products } = useContext(MyContext);
 
   return (
     <div>
