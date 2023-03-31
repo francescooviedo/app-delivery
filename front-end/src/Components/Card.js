@@ -1,12 +1,23 @@
-import React from 'react';
-import mockProducts from '../mock/mockProducts';
+import React, { useContext, useEffect } from 'react';
 import ProductCard from '../Attachment/ProductCard';
+import { requestData } from '../Helpers/productsGet';
+import MyContext from '../Context/MyContext';
 
 export default function Card() {
+  const { products, setProducts } = useContext(MyContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await requestData();
+      setProducts(data);
+    };
+    fetchData();
+  }, [setProducts]);
+
   return (
     <div>
       {
-        mockProducts.map((i) => (
+        products.map((i) => (
           <ProductCard
             key={ i.id }
             id={ i.id }
@@ -15,6 +26,9 @@ export default function Card() {
             urlImage={ i.url_image }
           />
         ))
+      }
+      {
+        console.log(products)
       }
     </div>
   );
