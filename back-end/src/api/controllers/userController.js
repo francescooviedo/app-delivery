@@ -3,6 +3,7 @@ const {
   getUserById,
   getByEmail,
   getByEmailandPassword,
+  getUserByEmail,
   // updateUser,
   // deleteUser,
   
@@ -10,15 +11,15 @@ const {
 const { hashPassword } = require('../utils/cryptoJWT');
 
 const createUserHandler = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { name, email, password } = req.body;
   // se usuario ja exite
   const userEmail = await getByEmail(email);
   if (userEmail) {
-    return res.status(400).json({ error: 'User already exists' });
+    return res.status(409).json(); 
   }
   const passwordMD5 = hashPassword(password);
   // encriptacao de senha
-  const user = await createUser({ name, email, password: passwordMD5, role });
+  const user = await createUser({ name, email, password: passwordMD5 });
    return res.status(201).json(user);
 };
 
@@ -36,7 +37,7 @@ const validateLoginHandler = async (req, res) => {
     const token = await getByEmailandPassword(email, password);
     return res.status(200).json({ token });
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(404).json(error.message);
         }
 };
 // const updateUserHandler = async (req, res) => {
@@ -48,11 +49,19 @@ const validateLoginHandler = async (req, res) => {
 //   await deleteUser(req.params.id);
 //   res.sendStatus(204);
 // };
-
+const getExistingUserHandler = async (req, res) => {
+  console.log(req.body);
+  const user = await getUserByEmail(req.body.email);
+  if (user) {
+    return res.status(409).json();
+  }
+  res.json(user);
+};
 module.exports = {
   createUserHandler,
   getUserByIdHandler,
   validateLoginHandler,
+  getExistingUserHandler,
   // updateUserHandler,
   // deleteUserHandler,
 };
