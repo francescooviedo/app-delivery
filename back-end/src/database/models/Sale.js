@@ -8,12 +8,20 @@ const SaleModel = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       foreignKey: true,
+      references: {
+        model: 'users',
+        key: 'id',
+      }
     },
     sellerId: {
       type: DataTypes.INTEGER,
       foreignKey: true,
+      references: {
+        model: 'users',
+        key: 'id',
+      }
     },
-    totalPrice: DataTypes.INTEGER,
+    totalPrice: DataTypes.DECIMAL(9,2),
     deliveryAddress: DataTypes.STRING,
     deliveryNumber: DataTypes.STRING,
     saleDate: DataTypes.DATE,
