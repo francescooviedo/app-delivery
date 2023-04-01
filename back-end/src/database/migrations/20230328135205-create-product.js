@@ -10,28 +10,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       price: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       url_image: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      // createdAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE,
-      //   defaultValue: "2012-3-23",
-      // },
-      // updatedAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE,
-      //   defaultValue: "2012-3-23",
-      // }
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    
+    await queryInterface.dropTable('products');
   }
 };

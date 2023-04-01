@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        field: 'user_id',
+        field: 'seller_id',
         references: {
           model: 'users',
           key: 'id',
@@ -51,16 +51,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       }
-      // createdAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE,
-      //   defaultValue: "2012-3-23",
-      // },
-      // updatedAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE,
-      //   defaultValue: "2012-3-23",
-      // }
     });
   },
 

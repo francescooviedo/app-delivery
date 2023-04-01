@@ -1,25 +1,49 @@
-const SaleModel = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Sale = sequelize.define('Sale', {
     id: {
+      allowNull: false,
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
     userId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
       foreignKey: true,
+      field: 'user_id',
     },
     sellerId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
       foreignKey: true,
+      field: 'seller_id'
     },
-    totalPrice: DataTypes.INTEGER,
-    deliveryAddress: DataTypes.STRING,
-    deliveryNumber: DataTypes.STRING,
-    saleDate: DataTypes.DATE,
-    status: DataTypes.STRING,
+    totalPrice: {
+      allowNull: false,
+      type: DataTypes.DECIMAL(9,2),
+      field: 'total_price',
+    },
+    delivery_address: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      field: 'delivery_address',
+    },
+    delivery_number:{
+      allowNull: false,
+      type: DataTypes.STRING,
+      field: 'delivery_number',
+    }, 
+    saleDate: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      field: 'sale_date',
+    }, 
+    status: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    }, 
   }, {
-    tableName: 'sales',
+    modelName: 'sales',
     timestamps: false,
     underscored: true
   });
@@ -30,11 +54,10 @@ const SaleModel = (sequelize, DataTypes) => {
       as: 'user'
     }, {
       foreignKey: 'seller_id',
-      as: 'user'
-    }, );
+      as: 'seller'
+    }, )
+    Sale.hasMany(SaleProduct, { foreignKey: 'saleId', as: 'sale' });
   };
 
   return Sale;
 };
-
-module.exports = SaleModel;
