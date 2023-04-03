@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import GenericInput from '../Components';
-/* import PropTypes from 'prop-types'; */
-/* import { Link } from 'react-router-dom'; */
+import { GenericInput, GenericSpan, GenericButton } from '../Components';
+import {
+  nameValidation,
+  emailValidation,
+  passwordValidation,
+} from '../utils/validations';
 
 class Register extends Component {
   state = {
     name: '',
     email: '',
     password: '',
-    termosDeUso: false,
-    /* role: '', */
+    lockEmail: true,
+    lockPassword: true,
+    lockName: true,
+    checkbox: false,
+    errorMessageStatus: true,
   };
 
   handleChange = ({ target }) => {
@@ -18,10 +24,41 @@ class Register extends Component {
     this.setState({
       [name]: value,
     });
+    this.loginValidation(name, value);
+  };
+
+  loginValidation = (name, value) => {
+    if (name === 'name') {
+      const result = nameValidation(value);
+      this.setState({
+        lockName: !result,
+      });
+    }
+    if (name === 'email') {
+      const result = emailValidation(value);
+      this.setState({
+        lockEmail: !result,
+      });
+    }
+    if (name === 'password') {
+      const result = passwordValidation(value);
+      this.setState({
+        lockPassword: !result,
+      });
+    }
   };
 
   render() {
-    const { name, email, password, termosDeUso } = this.state;
+    const {
+      name,
+      email,
+      password,
+      lockName,
+      lockEmail,
+      lockPassword,
+      checkbox,
+      errorMessageStatus,
+    } = this.state;
     return (
       <form action="" className="loginForm">
         <h1>Delivery da dona Tereza</h1>
@@ -43,28 +80,31 @@ class Register extends Component {
         <GenericInput
           type="password"
           value={ password }
-          labelText="Login"
+          labelText="Senha"
           handleChange={ this.handleChange }
           dataTestId="common_register__input-password"
         />
 
-        <label htmlFor="termosDeUso">
-          <input type="checkbox" name="termosDeUso" checked={ termosDeUso } />
-          Você aceita os termos de dona Tereza?
-        </label>
+        <GenericInput
+          type="checkbox"
+          value={ checkbox }
+          labelText="Você aceita os termos de dona Tereza?"
+          handleChange={ this.handleChange }
+          dataTestId="common_register__input-password"
+        />
 
-        <button
+        <GenericButton
           type="submit"
-          data-testid="common_login__button-login"
-        >
-          CADASTRAR
-        </button>
+          value="CADASTRAR"
+          disabled={ !(!lockName && !lockEmail && !lockPassword) } // !lockName && !lockEmail && !lockPassword ? false : true;
+          dataTestId="common_login__button-login"
+        />
 
-        <span
-          data-testid="common_login__element-invalid-email"
-        >
-          Elemento oculto (Mensagem de erro)
-        </span>
+        <GenericSpan
+          hidden={ errorMessageStatus }
+          errorMessage="Email ou Senha invalidos"
+          dataTestId="common_register__element-invalid_register"
+        />
 
       </form>
     );

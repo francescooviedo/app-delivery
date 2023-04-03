@@ -22,13 +22,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      modelName: 'products',
+      tableName: 'products',
       underscored:true
     }
     );
     Product.associate = ({ SaleProduct }) => {
       Product.hasMany(SaleProduct, { foreignKey: 'productId', as: 'productId' });
     }
+    
     return Product;
   };
-  

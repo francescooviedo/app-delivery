@@ -11,37 +11,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       foreignKey: true,
       field: 'user_id',
+      references: {
+        model: 'users',
+        key: 'id',
+      }
     },
     sellerId: {
       allowNull: false,
       type: DataTypes.INTEGER,
       foreignKey: true,
-      field: 'seller_id'
     },
-    totalPrice: {
-      allowNull: false,
-      type: DataTypes.DECIMAL(9,2),
-      field: 'total_price',
-    },
-    delivery_address: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      field: 'delivery_address',
-    },
-    delivery_number:{
-      allowNull: false,
-      type: DataTypes.STRING,
-      field: 'delivery_number',
-    }, 
-    saleDate: {
-      allowNull: false,
-      type: DataTypes.DATE,
-      field: 'sale_date',
-    }, 
-    status: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    }, 
+    totalPrice: DataTypes.INTEGER,
+    deliveryAddress: DataTypes.STRING,
+    deliveryNumber: DataTypes.STRING,
+    saleDate: DataTypes.DATE,
+    status: DataTypes.STRING,
   }, {
     modelName: 'sales',
     timestamps: false,

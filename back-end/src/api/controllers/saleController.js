@@ -1,6 +1,6 @@
 const saleService = require('../services/saleService');
 
-async function createSale(req, res) {
+const createSale = async (req, res) => {
   const {
     userId,
     sellerId,
@@ -18,13 +18,13 @@ async function createSale(req, res) {
     }, cart);
 
   res.status(statusCode).json(message);
-}
+};
 
-async function findAll(_req, res) {
+const findAll = async (_req, res) => {
   const { statusCode, message } = await saleService.findAll();
 
   res.status(statusCode).json(message);
-}
+};
 
 module.exports = {
   createSale,

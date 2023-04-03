@@ -33,6 +33,10 @@ const getByEmailandPassword = async (email, password) => {
   const token = generateToken(user.id);
   return token;
 };
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({ where: { email } });
+  return user;
+};
 // const updateUser = async (id, userData) => {
 //   const [, [user]] = await User.update(userData, {
 //     returning: true,
@@ -53,6 +57,7 @@ module.exports = {
   createUser,
   getByEmail,
   getUserById,
+  getUserByEmail,
   // updateUser,
   // deleteUser,
  

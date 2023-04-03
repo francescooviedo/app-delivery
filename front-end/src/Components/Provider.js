@@ -16,6 +16,8 @@ function Provider({ children }) {
   }, []);
 
   const contextValue = useMemo(() => ({
+    products,
+    setProducts,
     quantity,
     setQuantity,
     orders,
