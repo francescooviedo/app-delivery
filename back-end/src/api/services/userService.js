@@ -1,13 +1,15 @@
 const { 
   comparePassword,
   generateToken,
+  verifyToken,
  } = require('../utils/cryptoJWT');
 
 const { User } = require('../../database/models');
 
 const createUser = async (userData) => {
   const user = await User.create(userData);
-  return user;
+  const token = generateToken(user.id);
+  return { user, token };
 };
 
 const getUserById = async (id) => {
@@ -20,10 +22,12 @@ const getByEmail = async (email) => {
   return user;
 };
 
-const getByEmailandPassword = async (email, password) => {
-  console.log(email, password);
-  const user = await User.findOne({ where: { email } });
-  console.log(user.dataValues);
+const getByEmailandPassword = async (reqEmail, password) => {
+  console.log(reqEmail, password);
+  const user = await User.findOne({ where: { email: reqEmail } });
+  const { name, email, role } = user.dataValues;
+  console.log(name, email, role);
+
   // const { passwordMD5 } = user.dataValues.password;
   const validate = comparePassword(password, user.dataValues.password);
   console.log('validate', validate);
@@ -31,7 +35,7 @@ const getByEmailandPassword = async (email, password) => {
     throw new Error('Invalid password');
   }
   const token = generateToken(user.id);
-  return token;
+  return { token, name, email, role };
 };
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ where: { email } });
@@ -51,14 +55,19 @@ const getUserByEmail = async (email) => {
 // };
 
 // aqui
-
+const userValidation = async (email, token) => {
+  const { id } = await User.findOne({ where: { email } });
+  const userId = verifyToken(token);
+  return userId === id;
+};
 module.exports = {
   getByEmailandPassword,
   createUser,
   getByEmail,
   getUserById,
   getUserByEmail,
-  // updateUser,
+  userValidation,
+    // updateUser,
   // deleteUser,
  
 };

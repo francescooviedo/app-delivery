@@ -1,8 +1,9 @@
-const APIURL = 'http://localhost:3001/users';
+const APIURL = 'http://localhost:3001/register';
 
-const apiCall = async (userData) => {
+const emailVal = async (userData) => {
   try {
     console.log('userdata:', userData);
+    console.log('userData', userData);
     const fetchAPI = await fetch(APIURL, {
       method: 'POST',
       headers: {
@@ -17,4 +18,4 @@ const apiCall = async (userData) => {
   }
 };
 
-export default apiCall;
+export default emailVal;

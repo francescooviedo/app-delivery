@@ -4,6 +4,7 @@ const {
   getByEmail,
   getByEmailandPassword,
   getUserByEmail,
+  userValidation,
   // updateUser,
   // deleteUser,
   
@@ -15,7 +16,7 @@ const createUserHandler = async (req, res) => {
   // se usuario ja exite
   const userEmail = await getByEmail(email);
   if (userEmail) {
-    return res.status(409).json(); 
+    return res.status(409).json({}); 
   }
   const passwordMD5 = hashPassword(password);
   // encriptacao de senha
@@ -34,8 +35,8 @@ const validateLoginHandler = async (req, res) => {
 
     console.log(email, password);
 
-    const token = await getByEmailandPassword(email, password);
-    return res.status(200).json({ token });
+    const response = await getByEmailandPassword(email, password);
+    return res.status(200).json(response);
   } catch (error) {
     return res.status(404).json(error.message);
         }
@@ -57,11 +58,23 @@ const getExistingUserHandler = async (req, res) => {
   }
   res.json(user);
 };
+
+const validateUsers = async (req, res) => {
+  try {
+    const { email, token } = req.body;
+    const response = await userValidation(email, token);
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(404).json(error.message);
+  }
+};
+
 module.exports = {
   createUserHandler,
   getUserByIdHandler,
   validateLoginHandler,
   getExistingUserHandler,
+  validateUsers,
   // updateUserHandler,
   // deleteUserHandler,
 };

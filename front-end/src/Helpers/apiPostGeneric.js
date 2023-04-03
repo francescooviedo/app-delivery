@@ -1,9 +1,10 @@
-const APIURL = 'http://localhost:3001/users';
+const APIURL = 'http://localhost:3001/';
 
-const apiCall = async (userData) => {
+const apiPostGeneric = async (ENDPOINT, userData) => {
   try {
     console.log('userdata:', userData);
-    const fetchAPI = await fetch(APIURL, {
+    console.log('userData', userData);
+    const fetchAPI = await fetch(`${APIURL}${ENDPOINT}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -17,4 +18,4 @@ const apiCall = async (userData) => {
   }
 };
 
-export default apiCall;
+export default apiPostGeneric;
