@@ -2,7 +2,7 @@ const ProductModel = (sequelize, DataTypes) => {
     const Product = sequelize.define('Product', {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       name: DataTypes.STRING,
-      price: DataTypes.INTEGER,
+      price: DataTypes.DECIMAL(4,2),
       urlImage: DataTypes.STRING,
     },
     {
@@ -15,7 +15,3 @@ const ProductModel = (sequelize, DataTypes) => {
   };
   
   module.exports = ProductModel;
- // User.associate = (models) => {
-    //   User.hasMaany(models.Sale,
-    //     { foreignKey: 'user_id', as: 'sales' });
-    // };

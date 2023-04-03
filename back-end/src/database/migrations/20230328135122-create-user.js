@@ -10,31 +10,25 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       role: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
-      // createdAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE,
-      //   defaultValue: "2012-3-23",
-      // },
-      // updatedAt: {
-      //   allowNull: false,
-      //   type: Sequelize.DATE,
-      //   defaultValue: "2012-3-23",
-      // }
     });
   },
 
-  down: async (queryInterface, Sequelize) => {
-    
+   async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('users');
   }
 };
