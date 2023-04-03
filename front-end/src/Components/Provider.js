@@ -1,17 +1,27 @@
-import React, { /* useEffect */ useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../Context/MyContext';
+import { requestData } from '../services/requests';
 
 function Provider({ children }) {
   const [quantity, setQuantity] = useState(0);
-  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    async function fetchSales() {
+      const { data } = await requestData('/sales');
+      setOrders(data);
+    }
+    fetchSales();
+  }, []);
 
   const contextValue = useMemo(() => ({
-    products,
-    setProducts,
+    // products,
+    // setProducts,
     quantity,
     setQuantity,
-  }), [quantity, products]);
+    orders,
+  }), [quantity, orders]);
 
   return (
     <MyContext.Provider value={ contextValue }>

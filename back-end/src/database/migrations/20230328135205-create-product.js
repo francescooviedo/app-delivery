@@ -10,20 +10,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        type: Sequelize.STRING
       },
       price: {
-        type: Sequelize.DECIMAL(4,2),
         allowNull: false,
+        type: Sequelize.INTEGER
       },
       url_image: {
-        type: Sequelize.STRING,
+        allowNull: false,
+        type: Sequelize.STRING
       },
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('products');
   }
 };
