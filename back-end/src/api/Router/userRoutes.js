@@ -3,6 +3,7 @@ const {
     createUserHandler,
     getUserByIdHandler,
     validateLoginHandler,
+    getExistingUserHandler,
     // updateUserHandler,
     // deleteUserHandler
  } = require('../controllers/userController');
@@ -10,11 +11,11 @@ const {
 const router = express.Router();
 const users = '/users/:id';
 
-router.post('/users', createUserHandler);
-
+router.post('/users', getExistingUserHandler);
+router.post('/register', createUserHandler);
 router.get(`${users}`, getUserByIdHandler);
 
-router.get('/login', validateLoginHandler);
+router.post('/login', validateLoginHandler);
 // router.put(`${users}`, updateUserHandler);
 // app
 // router.delete(`${users}`, deleteUserHandler);
