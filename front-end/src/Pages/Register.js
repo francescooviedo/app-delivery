@@ -27,7 +27,8 @@ export default function Register() {
   const history = useHistory();
 
   const register = async () => {
-    const response = await emailVal({ name, email, password });
+    const role = 'customer';
+    const response = await emailVal({ name, email, password, role });
     const { token } = response;
     if (!response.user) {
       setfailedRegister(true);

@@ -83,7 +83,7 @@ export default function Products() {
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
     });
-    const finalPrice = (Math.round(price * 100) / 100).toString().replace('.', ',');
+    const finalPrice = price.toFixed(2).toString().replace('.', ',');
     setcheckoutValue(finalPrice);
   };
 
@@ -99,7 +99,7 @@ export default function Products() {
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
     });
-    const finalPrice = (Math.round(price * 100) / 100).toString().replace('.', ',');
+    const finalPrice = price.toFixed(2).toString().replace('.', ',');
     setcheckoutValue(finalPrice);
   };
 
@@ -115,7 +115,7 @@ export default function Products() {
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
     });
-    const finalPrice = (Math.round(price * 100) / 100).toString().replace('.', ',');
+    const finalPrice = price.toFixed(2).toString().replace('.', ',');
     setcheckoutValue(finalPrice);
   };
   // ***************************aqui***************************
@@ -135,7 +135,7 @@ export default function Products() {
             value={ state[index].quantity }
             name={ product.name }
             price={ product.price.toString().replace('.', ',') }
-            url={ product.urlImage }
+            url={ product.url_image }
             sum={ (e) => sum(e, index) }
             subtract={ (e) => subtract(e, index) }
             onChange={ (e) => handleChange(e, index) }
