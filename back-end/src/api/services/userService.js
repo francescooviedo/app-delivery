@@ -23,7 +23,6 @@ const getByEmail = async (email) => {
 };
 
 const getByEmailandPassword = async (reqEmail, password) => {
-  console.log(reqEmail, password);
   const user = await User.findOne({ where: { email: reqEmail } });
   const { name, email, role } = user.dataValues;
   const validate = comparePassword(password, user.dataValues.password);
@@ -31,31 +30,14 @@ const getByEmailandPassword = async (reqEmail, password) => {
     throw new Error('Invalid password');
   }
   const token = await generateToken(user.id);
-  console.log(token);
   return { token, name, email, role };
 };
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ where: { email } });
   return user;
 };
-// const updateUser = async (id, userData) => {
-//   const [, [user]] = await User.update(userData, {
-//     returning: true,
-//     where: { id },
-//   });
-//   return user;
-// };
-
-// const deleteUser = async (id) => {
-//   const user = await getUserById(id);
-//   await user.destroy();
-// };
-
-// aqui
 const userValidation = async (token) => {
-  // const { id } = await User.findOne({ where: { email } });
   const userId = await verifyToken(token);
-  console.log(userId);
   const result = !!userId;
   return result;
 };
@@ -65,8 +47,5 @@ module.exports = {
   getByEmail,
   getUserById,
   getUserByEmail,
-  userValidation,
-    // updateUser,
-  // deleteUser,
- 
+  userValidation, 
 };

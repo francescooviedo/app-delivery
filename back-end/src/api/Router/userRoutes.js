@@ -5,20 +5,14 @@ const {
     validateLoginHandler,
     getExistingUserHandler,
     validateUsers,
-    // updateUserHandler,
-    // deleteUserHandler
  } = require('../controllers/userController');
 
-const router = express.Router();
-const users = '/users/:id';
+const userRouter = express.Router();
 
-router.post('/users', getExistingUserHandler);
-router.post('/register', createUserHandler);
-router.get(`${users}`, getUserByIdHandler);
-router.post('/validateUsers', validateUsers);
-router.post('/login', validateLoginHandler);
-// router.put(`${users}`, updateUserHandler);
-// app
-// router.delete(`${users}`, deleteUserHandler);
+userRouter.post('/users', getExistingUserHandler)
+.post('/register', createUserHandler)
+.get('/users/:id', getUserByIdHandler)
+.post('/validateUsers', validateUsers)
+.post('/login', validateLoginHandler);
 
-module.exports = router;
+module.exports = userRouter;

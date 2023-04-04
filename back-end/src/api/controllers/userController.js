@@ -38,7 +38,6 @@ const validateLoginHandler = async (req, res) => {
 };
 
 const getExistingUserHandler = async (req, res) => {
-  console.log(req.body);
   const user = await getUserByEmail(req.body.email);
   if (user) {
     return res.status(409).json();

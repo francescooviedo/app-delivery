@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const salesRouter = require('./Router/saleRouter');
-const routes = require('./Router/userRoutes');
+const userRoutes = require('./Router/userRoutes');
 const productRouter = require('./Router/productRoutes');
 
 const app = express();
@@ -20,7 +20,7 @@ const accessControl = (_req, res, next) => {
 app.use(accessControl);
 
 app.use('/sales', salesRouter);
-app.use(routes);
+app.use(userRoutes);
 app.use(productRouter);
 
 module.exports = app;
