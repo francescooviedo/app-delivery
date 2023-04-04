@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import '../provisoria/products.css';
 
 export default function ProductCard({
   id, name, price, url, sum, subtract, onChange, value,

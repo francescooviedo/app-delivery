@@ -4,7 +4,6 @@ import NavBar from '../Components/navBar';
 import ProductCard from '../Components/ProductCard';
 import apiCallGeneric from '../Helpers/apiGeneric';
 import apiPostGeneric from '../Helpers/apiPostGeneric';
-import '../provisoria/products.css';
 
 export default function Products() {
   const data = [

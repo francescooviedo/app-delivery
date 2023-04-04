@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import '../provisoria/products.css';
 import { useHistory } from 'react-router-dom';
 
 export default function NavBar({ nome }) {
