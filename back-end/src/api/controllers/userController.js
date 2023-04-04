@@ -33,7 +33,7 @@ const validateLoginHandler = async (req, res) => {
     const response = await getByEmailandPassword(email, password);
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(404).json(error.message);
+  return res.status(400).json({ message: error.message });
         }
 };
 

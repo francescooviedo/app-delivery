@@ -1,15 +1,23 @@
-const SaleModel = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Sale = sequelize.define('Sale', {
     id: {
+      allowNull: false,
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
     userId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
       foreignKey: true,
+      field: 'user_id',
+      references: {
+        model: 'users',
+        key: 'id',
+      }
     },
     sellerId: {
+      allowNull: false,
       type: DataTypes.INTEGER,
       foreignKey: true,
     },
@@ -19,22 +27,16 @@ const SaleModel = (sequelize, DataTypes) => {
     saleDate: DataTypes.DATE,
     status: DataTypes.STRING,
   }, {
-    tableName: 'sales',
+    modelName: 'sales',
     timestamps: false,
     underscored: true
   });
 
-  Sale.associate = (models) => {
-    Sale.belongsTo(models.User, {
-      foreignKey: 'user_id',
-      as: 'user'
-    }, {
-      foreignKey: 'seller_id',
-      as: 'user'
-    }, );
+  Sale.associate = ({ User, SaleProduct }) => {
+    Sale.belongsTo(User, { foreignKey: 'user_id', as: 'user' }) 
+    Sale.belongsTo(User, { foreignKey: 'sellerId', as: 'seller' }) 
+    Sale.hasMany(SaleProduct, { foreignKey: 'saleId', as: 'sale' })
   };
 
   return Sale;
 };
-
-module.exports = SaleModel;
