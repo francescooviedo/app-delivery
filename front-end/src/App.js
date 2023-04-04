@@ -1,8 +1,27 @@
 import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import Provider from './Components/Provider';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import Products from './Pages/Products';
 
 function App() {
   return (
-    <main />
+    <main>
+      <Provider>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route exact path="/login" component={ Login } />
+          <Route exact path="/register" component={ Register } />
+          <Route exact path="/customer/products" component={ Products } />
+          <Route exact path="/customer/checkout" component={ Products } />
+          {/*           <Route exact path="/customer/orders" component={ Orders } />
+          <Route exact path="/customer/checkout" component={ Checkout } /> */}
+        </Switch>
+      </Provider>
+    </main>
   );
 }
 
