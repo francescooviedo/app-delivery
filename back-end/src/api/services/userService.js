@@ -8,7 +8,7 @@ const { User } = require('../../database/models');
 
 const createUser = async (userData) => {
   const user = await User.create(userData);
-  const token = generateToken(user.id);
+  const token = await generateToken(user.id);
   return { user, token };
 };
 
@@ -26,15 +26,12 @@ const getByEmailandPassword = async (reqEmail, password) => {
   console.log(reqEmail, password);
   const user = await User.findOne({ where: { email: reqEmail } });
   const { name, email, role } = user.dataValues;
-  console.log(name, email, role);
-
-  // const { passwordMD5 } = user.dataValues.password;
   const validate = comparePassword(password, user.dataValues.password);
-  console.log('validate', validate);
   if (!validate) {
     throw new Error('Invalid password');
   }
-  const token = generateToken(user.id);
+  const token = await generateToken(user.id);
+  console.log(token);
   return { token, name, email, role };
 };
 const getUserByEmail = async (email) => {
@@ -55,10 +52,12 @@ const getUserByEmail = async (email) => {
 // };
 
 // aqui
-const userValidation = async (email, token) => {
-  const { id } = await User.findOne({ where: { email } });
-  const userId = verifyToken(token);
-  return userId === id;
+const userValidation = async (token) => {
+  // const { id } = await User.findOne({ where: { email } });
+  const userId = await verifyToken(token);
+  console.log(userId);
+  const result = !!userId;
+  return result;
 };
 module.exports = {
   getByEmailandPassword,

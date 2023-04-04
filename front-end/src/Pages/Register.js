@@ -28,12 +28,11 @@ export default function Register() {
 
   const register = async () => {
     const response = await emailVal({ name, email, password });
-    console.log(response);
     const { token } = response;
-    if (response === {}) {
+    if (!response.user) {
       setfailedRegister(true);
     }
-    if (response.user.id) {
+    if (response.user.id !== undefined) {
       localStorage.setItem('user', JSON.stringify(
         {
           email: response.email,

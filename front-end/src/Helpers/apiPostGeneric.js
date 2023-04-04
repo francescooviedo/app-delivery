@@ -3,7 +3,6 @@ const APIURL = 'http://localhost:3001/';
 const apiPostGeneric = async (ENDPOINT, userData) => {
   try {
     console.log('userdata:', userData);
-    console.log('userData', userData);
     const fetchAPI = await fetch(`${APIURL}${ENDPOINT}`, {
       method: 'POST',
       headers: {

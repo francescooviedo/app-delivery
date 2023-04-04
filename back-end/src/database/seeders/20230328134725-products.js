@@ -30,13 +30,13 @@ module.exports = {
     {
       id: 5,
       name: 'Skol 269ml',
-      price: 4.49,
+      price: 2.19,
       url_image: 'http://localhost:3001/images/skol_269ml.jpg',
     },
     {
       id: 6,
       name: 'Skol Beats Senses 313ml',
-      price: 2.49,
+      price: 4.49,
       url_image: 'http://localhost:3001/images/skol_beats_senses_313ml.jpg',
     },
     {

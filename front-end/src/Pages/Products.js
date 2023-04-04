@@ -47,7 +47,7 @@ export default function Products() {
   const [isLogged, setisLogged] = useState(true);
   const [userName, setuserName] = useState('');
   const [state, setState] = useState(data);
-  const [checkoutValue, setcheckoutValue] = useState(0);
+  const [checkoutValue, setcheckoutValue] = useState('0');
   const history = useHistory();
   useEffect(() => {
     const products = async () => {
@@ -57,10 +57,11 @@ export default function Products() {
     setisLoading(false);
     const validateUsers = async () => {
       if (JSON.parse(localStorage.getItem('user')) !== null) {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const response = await apiPostGeneric('validateUsers', user);
+        const { token, name } = JSON.parse(localStorage.getItem('user'));
+        const response = await apiPostGeneric('validateUsers', { token });
+        console.log(response);
         setisLogged(false);
-        setuserName(user.name);
+        setuserName(name);
         if (!response) {
           history.push('/login');
         }
@@ -69,20 +70,22 @@ export default function Products() {
     products();
     validateUsers();
   }, [setisLogged, history, isLogged]);
+  // ***************************aqui***************************
 
   const sum = (e, i) => {
     const { value, name } = e.target;
     const newState = [...state];
     newState[i] = {
       ...newState[i],
-      [name]: (Number(value) + 1),
+      [name]: (Number(value) + 1) < 0 ? 0 : (Number(value) + 1),
     };
     setState(newState);
     let price = 0;
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
     });
-    setcheckoutValue(price);
+    const finalPrice = (Math.round(price * 100) / 100).toString().replace('.', ',');
+    setcheckoutValue(finalPrice);
   };
 
   const subtract = (e, i) => {
@@ -90,14 +93,15 @@ export default function Products() {
     const newState = [...state];
     newState[i] = {
       ...newState[i],
-      [name]: (Number(value) - 1),
+      [name]: (Number(value) - 1) < 0 ? 0 : (Number(value) - 1),
     };
     setState(newState);
     let price = 0;
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
     });
-    setcheckoutValue(price);
+    const finalPrice = (Math.round(price * 100) / 100).toString().replace('.', ',');
+    setcheckoutValue(finalPrice);
   };
 
   const handleChange = (e, i) => {
@@ -105,29 +109,33 @@ export default function Products() {
     const newState = [...state];
     newState[i] = {
       ...newState[i],
-      [name]: Number(value),
+      [name]: Number(value) < 0 ? 0 : value,
     };
     setState(newState);
     let price = 0;
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
     });
-    setcheckoutValue(price);
+    const finalPrice = (Math.round(price * 100) / 100).toString().replace('.', ',');
+    setcheckoutValue(finalPrice);
+  };
+  // ***************************aqui***************************
+  const redirectCheckout = () => {
+    history.push('/customer/checkout');
   };
 
   return (
     <div className="cardContainer">
-      <NavBar nome={ userName } checkoutValue={ checkoutValue } />
+      <NavBar nome={ userName } />
       {isLoading
         ? <h1>is loading..</h1>
         : productsArr.map((product, index) => (
-
           <ProductCard
             id={ product.id }
-            key={ Math.random() }
+            key={ index }
             value={ state[index].quantity }
             name={ product.name }
-            price={ product.price }
+            price={ product.price.toString().replace('.', ',') }
             url={ product.urlImage }
             sum={ (e) => sum(e, index) }
             subtract={ (e) => subtract(e, index) }
@@ -135,6 +143,19 @@ export default function Products() {
           />
 
         ))}
+      <button
+        type="button"
+        data-testid="customer_products__button-cart"
+        onClick={ () => redirectCheckout() }
+        disabled={ checkoutValue === '0' }
+      >
+        <div>
+          Ver Carrinho: R$
+          <span data-testid="customer_products__checkout-bottom-value">
+            { checkoutValue }
+          </span>
+        </div>
+      </button>
     </div>
   );
 }

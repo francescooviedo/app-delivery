@@ -1,21 +1,35 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const fs = require('fs/promises');
 
-const secretKey = 'jwt_secret';
-
+const secretKey = async () => {
+  const data = await fs.readFile(
+    './jwt.evaluation.key', 
+    'utf-8',
+  );
+  return data;
+};
 function hashPassword(password) {
     const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
     return hashedPassword;
   }
 
-function generateToken(userId) {
-  const token = jwt.sign({ userId }, secretKey);
+async function generateToken(userId) {
+  const options = {
+        expiresIn: '3d',
+        algorithm: 'HS256',
+      };
+  const key = await secretKey();
+  const token = jwt.sign({ userId }, key, options);
+  console.log(token);
   return token;
 }
 
-function verifyToken(token) {
+async function verifyToken(token) {
   try {
-    const decoded = jwt.verify(token, secretKey);
+    const key = await secretKey();
+    const decoded = jwt.verify(token, key);
+    console.log('awqui?:', decoded);
     return decoded.userId;
   } catch (err) {
     return null;
@@ -32,3 +46,30 @@ module.exports = {
   generateToken,
   comparePassword,
 };
+
+// const secret = await secretKey();
+//         const decryptedData = jwt.verify(authorization, secret);
+//         req.user = decryptedData;
+
+// const jwt = require('jsonwebtoken');
+// const fs = require('fs/promises');
+
+// const secretKey = async () => {
+//   const data = await fs.readFile(
+//     './jwt.evaluation.key', 
+//     'utf-8',
+//   );
+//   return data;
+// };
+
+// const generateToken = async (payload) => {
+//   const options = {
+//     expiresIn: '3d',
+//     algorithm: 'HS256',
+//   };
+//   const key = await secretKey();
+//   const token = jwt.sign(payload, key, options);
+//   return token;
+// };
+
+// module.exports = { generateToken, secretKey };

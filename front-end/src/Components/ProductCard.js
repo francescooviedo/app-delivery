@@ -6,50 +6,50 @@ export default function ProductCard({
 }) {
   return (
     <div
-      data-testid={ `customer_products__element-card-price-${id}` }
       className="productCard"
     >
       <h4
-        key={ Math.random() }
+        data-testid={ `customer_products__element-card-title-${id}` }
       >
         {name}
       </h4>
       <h4
-        key={ Math.random() }
+        data-testid={ `customer_products__element-card-price-${id}` }
       >
         {price}
 
       </h4>
       <img
-        key={ Math.random() }
         src={ url }
         alt="img"
-        data-testid={ `${id}-card-img` }
+        data-testid={ `customer_products__img-card-bg-image-${id}` }
       />
       <div>
         <button
           type="button"
-          data-testid="customer_products__element-navbar-link-logout"
+          data-testid={ `customer_products__button-card-rm-item-${id}` }
           name="quantity"
           value={ value }
-          onClick={ sum }
+          onClick={ subtract }
         >
-          +
+          -
         </button>
+
         <input
           type="number"
+          data-testid={ `customer_products__input-card-quantity-${id}` }
           name="quantity"
           value={ value }
           onChange={ onChange }
         />
         <button
           type="button"
-          data-testid="customer_products__element-navbar-link-logout"
+          data-testid={ `customer_products__button-card-add-item-${id}` }
           name="quantity"
           value={ value }
-          onClick={ subtract }
+          onClick={ sum }
         >
-          -
+          +
         </button>
       </div>
     </div>

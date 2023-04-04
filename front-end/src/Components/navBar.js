@@ -1,7 +1,15 @@
 import PropTypes from 'prop-types';
 import '../provisoria/products.css';
+import { useHistory } from 'react-router-dom';
 
-export default function NavBar({ nome, checkoutValue }) {
+export default function NavBar({ nome }) {
+  const history = useHistory();
+
+  const redirect = () => {
+    localStorage.clear();
+    history.push('/login');
+  };
+
   return (
     <div className="navBarContainer">
       <div>
@@ -25,10 +33,10 @@ export default function NavBar({ nome, checkoutValue }) {
         <button
           type="button"
           data-testid="customer_products__element-navbar-link-logout"
+          onClick={ () => redirect() }
         >
           sair
         </button>
-        <h4>{`total: ${Math.round(checkoutValue * 100) / 100}`}</h4>
       </div>
     </div>
   );
@@ -36,5 +44,4 @@ export default function NavBar({ nome, checkoutValue }) {
 
 NavBar.propTypes = {
   nome: PropTypes.string.isRequired,
-  checkoutValue: PropTypes.number.isRequired,
 };
