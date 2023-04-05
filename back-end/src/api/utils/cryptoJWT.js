@@ -6,7 +6,7 @@ const secretKey = async () => {
   const data = await fs.readFile(
     './jwt.evaluation.key', 
     'utf-8',
-  );
+  ).trim();
   return data;
 };
 function hashPassword(password) {
