@@ -2,34 +2,32 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import apiPostGeneric from '../Helpers/apiPostGeneric';
 import NavBarAdmin from '../Components/navBarAdmin';
+import emailVal from '../Helpers/emailVal';
 
 export default function Admin() {
   const [enableButton, setButton] = useState(true);
   const [userName, setuserName] = useState('');
   const [isLoading, setisLoading] = useState(true);
   const [isLogged, setisLogged] = useState(true);
-  const [nome, setnome] = useState('');
-  const [email, setemail] = useState('');
-  const [password, setpassword] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [newName, setNewName] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [role, setRole] = useState('seller');
+  const [failedRegister, setfailedRegister] = useState(false);
   const history = useHistory();
 
-  const handleChange = (e) => {
-    setSelectedOption(e.target.value);
-  };
-
   useEffect(() => {
-    const verifyEmail = '@';
-    const verifyEmailDot = '.com';
+    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const validEmail = regexEmail.test(newEmail);
     const minPassword = 6;
     const doze = 12;
-    const validEmail = email.includes(verifyEmail) && email.includes(verifyEmailDot);
-    const validPassword = password.length >= minPassword;
+    const validPassword = newPassword.length >= minPassword;
     const finalValidation = validEmail && validPassword;
-    if (password.length < minPassword || nome.length < doze || !finalValidation) {
+
+    if (newPassword.length < minPassword || newName.length < doze || !finalValidation) {
       setButton(true);
     }
-    if (finalValidation && nome.length >= doze) {
+    if (finalValidation && newName.length >= doze) {
       setButton(false);
     }
 
@@ -38,7 +36,7 @@ export default function Admin() {
       if (JSON.parse(localStorage.getItem('user')) !== null) {
         const { token, name } = JSON.parse(localStorage.getItem('user'));
         const response = await apiPostGeneric('validateUsers', { token });
-        // console.log(response);
+        console.log('entrou no useEffect');
         setisLogged(false);
         setuserName(name);
         if (!response) {
@@ -47,7 +45,44 @@ export default function Admin() {
       }
     };
     validateUsers();
-  }, [setisLogged, history, isLogged, email, password, nome]);
+  }, [setisLogged, history, isLogged, newEmail, newPassword, newName]);
+
+  const handleRole = (event) => {
+    setRole(event.target.value);
+  };
+
+  // const cleanInputs = () => {
+  //   setNewName('');
+  //   setNewEmail('');
+  //   setNewPassword('');
+  //   setRole('seller');
+  // };
+
+  const register = async () => {
+    const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+    console.log(userLocalStorage);
+    console.log('local storage de user');
+    if (!userLocalStorage.token) { return 'token is required'; }
+
+    const response = await emailVal(
+      { name: newName, email: newEmail, password: newPassword, role },
+    );
+    const { token } = response;
+    if (!response.user) {
+      setfailedRegister(true);
+    }
+    if (response.user.id !== undefined) {
+      localStorage.setItem('user', JSON.stringify(
+        {
+          email: response.email,
+          nome: newName,
+          role,
+          token },
+        // cleanInputs,
+      ));
+    }
+  };
+
   return (
     <>
       <NavBarAdmin nome={ userName } />
@@ -58,15 +93,15 @@ export default function Admin() {
             <h1>is loading..</h1>
           )
             : (
-              <form className="RegisterFormComponent">
+              <form className="RegisterAdminFormComponent">
                 <label htmlFor="name-input">
                   name
                   <input
                     type="text"
                     id="name-input"
                     data-testid="admin_manage__input-name"
-                    value={ nome }
-                    onChange={ (e) => setnome(e.target.value) }
+                    value={ newName }
+                    onChange={ (e) => setNewName(e.target.value) }
                   />
                 </label>
                 <label htmlFor="email-input">
@@ -75,8 +110,8 @@ export default function Admin() {
                     type="email"
                     id="email-input"
                     data-testid="admin_manage__input-email"
-                    value={ email }
-                    onChange={ (e) => setemail(e.target.value) }
+                    value={ newEmail }
+                    onChange={ (e) => setNewEmail(e.target.value) }
                   />
                 </label>
                 <label htmlFor="pssword-input">
@@ -85,19 +120,21 @@ export default function Admin() {
                     id="pssword-input"
                     type="password"
                     data-testid="admin_manage__input-password"
-                    value={ password }
-                    onChange={ (e) => setpassword(e.target.value) }
+                    value={ newPassword }
+                    onChange={ (e) => setNewPassword(e.target.value) }
                   />
                 </label>
-                <select
-                  data-testid="admin_manage__select-role"
-                  value={ selectedOption }
-                  onChange={ handleChange }
-                >
-                  <option value="opcao1">Vendedor</option>
-                  <option value="opcao2">Cliente</option>
-                  <option value="opcao3">Administrador</option>
-                </select>
+                <label htmlFor="type-input">
+                  <select
+                    data-testid="admin_manage__select-role"
+                    value={ role }
+                    onChange={ handleRole }
+                  >
+                    <option value="seller">seller</option>
+                    <option value="customer">customer</option>
+                    <option value="administrator">administrator</option>
+                  </select>
+                </label>
                 <br />
                 <br />
                 <button
@@ -110,6 +147,18 @@ export default function Admin() {
                 </button>
               </form>
             )
+        }
+        {
+          (failedRegister)
+            ? (
+              <p data-testid="admin_manage__element-invalid-register">
+                {
+                  `O endereço de e-mail ou a senha não estão corretos.
+                    Por favor, tente novamente.`
+                }
+              </p>
+            )
+            : null
         }
       </div>
 

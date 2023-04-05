@@ -8,6 +8,7 @@ export default function Register() {
   const [password, setpassword] = useState('');
   const [name, setname] = useState('');
   const [failedRegister, setfailedRegister] = useState(false);
+
   useEffect(() => {
     const verifyEmail = '@';
     const verifyEmailDot = '.com';
@@ -46,6 +47,7 @@ export default function Register() {
 
     setfailedRegister(true);
   };
+
   return (
     <div className="registerForm">
       <form className="RegisterFormComponent">

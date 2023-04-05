@@ -41,11 +41,13 @@ export default function Login() {
           token },
       ));
       switch (role) {
-      case 'administrator':
-        history.push('/admin/manage');
+      case 'administrator': history.push('/admin/manage');
         break;
-      default:
-        history.push('/customer/products');
+      case 'customer': history.push('/customer/products');
+        break;
+      case 'seller': history.push('/seller/orders');
+        break;
+      default: history.push('/');
       }
     }
   };
