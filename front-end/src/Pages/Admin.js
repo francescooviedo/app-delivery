@@ -49,66 +49,70 @@ export default function Admin() {
     validateUsers();
   }, [setisLogged, history, isLogged, email, password, nome]);
   return (
-    <div>
+    <>
       <NavBarAdmin nome={ userName } />
-      <h3>Cadastrar novo usuário</h3>
-      {
-        isLoading
-          ? <h1>is loading..</h1>
-          : <div>
-            <form className="RegisterFormComponent">
-              <label htmlFor="name-input">
-                name
-                <input
-                  type="text"
-                  id="name-input"
-                  data-testid="admin_manage__input-name"
-                  value={ nome }
-                  onChange={ (e) => setnome(e.target.value) }
-                />
-              </label>
-              <label htmlFor="email-input">
-                email
-                <input
-                  type="email"
-                  id="email-input"
-                  data-testid="admin_manage__input-email"
-                  value={ email }
-                  onChange={ (e) => setemail(e.target.value) }
-                />
-              </label>
-              <label htmlFor="pssword-input">
-                senha
-                <input
-                  id="pssword-input"
-                  type="password"
-                  data-testid="admin_manage__input-password"
-                  value={ password }
-                  onChange={ (e) => setpassword(e.target.value) }
-                />
-              </label>
-              <select
-                data-testid="admin_manage__select-role"
-                value={ selectedOption }
-                onChange={ handleChange }
-              >
-                <option value="opcao1">Vendedor</option>
-                <option value="opcao2">Opção 2</option>
-                <option value="opcao3">Opção 3</option>
-              </select>
-              <br />
-              <br />
-              <button
-                type="button"
-                data-testid="admin_manage__button-register"
-                onClick={ () => register() }
-                disabled={ enableButton }
-              >
-                Cadastrar
-              </button>
-            </form>
-          </div>
-      }
-    </div>
+      <div>
+        <h3>Cadastrar novo usuário</h3>
+        {
+          isLoading ? (
+            <h1>is loading..</h1>
+          )
+            : (
+              <form className="RegisterFormComponent">
+                <label htmlFor="name-input">
+                  name
+                  <input
+                    type="text"
+                    id="name-input"
+                    data-testid="admin_manage__input-name"
+                    value={ nome }
+                    onChange={ (e) => setnome(e.target.value) }
+                  />
+                </label>
+                <label htmlFor="email-input">
+                  email
+                  <input
+                    type="email"
+                    id="email-input"
+                    data-testid="admin_manage__input-email"
+                    value={ email }
+                    onChange={ (e) => setemail(e.target.value) }
+                  />
+                </label>
+                <label htmlFor="pssword-input">
+                  senha
+                  <input
+                    id="pssword-input"
+                    type="password"
+                    data-testid="admin_manage__input-password"
+                    value={ password }
+                    onChange={ (e) => setpassword(e.target.value) }
+                  />
+                </label>
+                <select
+                  data-testid="admin_manage__select-role"
+                  value={ selectedOption }
+                  onChange={ handleChange }
+                >
+                  <option value="opcao1">Vendedor</option>
+                  <option value="opcao2">Cliente</option>
+                  <option value="opcao3">Administrador</option>
+                </select>
+                <br />
+                <br />
+                <button
+                  type="button"
+                  data-testid="admin_manage__button-register"
+                  onClick={ () => register() }
+                  disabled={ enableButton }
+                >
+                  Cadastrar
+                </button>
+              </form>
+            )
+        }
+      </div>
+
+    </>
   );
 }
