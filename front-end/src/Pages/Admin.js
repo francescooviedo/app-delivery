@@ -51,12 +51,12 @@ export default function Admin() {
     setRole(event.target.value);
   };
 
-  // const cleanInputs = () => {
-  //   setNewName('');
-  //   setNewEmail('');
-  //   setNewPassword('');
-  //   setRole('seller');
-  // };
+  const cleanInputs = () => {
+    setNewName('');
+    setNewEmail('');
+    setNewPassword('');
+    setRole('seller');
+  };
 
   const register = async () => {
     const userLocalStorage = JSON.parse(localStorage.getItem('user'));
@@ -65,7 +65,11 @@ export default function Admin() {
     if (!userLocalStorage.token) { return 'token is required'; }
 
     const response = await emailVal(
-      { name: newName, email: newEmail, password: newPassword, role },
+      { name: newName,
+        email: newEmail,
+        password: newPassword,
+        role,
+        token: userLocalStorage.token },
     );
     const { token } = response;
     if (!response.user) {
@@ -78,8 +82,8 @@ export default function Admin() {
           nome: newName,
           role,
           token },
-        // cleanInputs,
       ));
+      cleanInputs();
     }
   };
 
