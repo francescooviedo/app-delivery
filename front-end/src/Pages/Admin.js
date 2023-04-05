@@ -51,12 +51,12 @@ export default function Admin() {
     setRole(event.target.value);
   };
 
-  const cleanInputs = () => {
-    setNewName('');
-    setNewEmail('');
-    setNewPassword('');
-    setRole('seller');
-  };
+  // const cleanInputs = () => {
+  //   setNewName('');
+  //   setNewEmail('');
+  //   setNewPassword('');
+  //   setRole('seller');
+  // };
 
   const register = async () => {
     const userLocalStorage = JSON.parse(localStorage.getItem('user'));
@@ -83,7 +83,7 @@ export default function Admin() {
           role,
           token },
       ));
-      cleanInputs();
+      // cleanInputs();
     }
   };
 
