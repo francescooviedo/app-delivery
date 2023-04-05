@@ -49,8 +49,9 @@ export default function Order() {
   return (
     <div>
       <NavBar nome={ userName } />
+      <p />
       <DetailBar />
-      <h1>Order</h1>
+      <p />
       {isLoading
         ? <h1>is loading..</h1>
         : productDetail.map((product, index) => (
@@ -66,9 +67,10 @@ export default function Order() {
             }
           />
         ))}
+      <p />
       <div>
-        Ver Carrinho: R$
-        <span data-testid="customer_products__checkout-bottom-value">
+        Total: R$
+        <span data-testid="customer_order_details__element-order-total-price">
           {totalValueDetails.toString().replace('.', ',')}
         </span>
       </div>

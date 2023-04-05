@@ -11,12 +11,40 @@ export default function DetailCard({
     <div
       className="productCard"
     >
-      <h1>{nome}</h1>
-      <h4>{index}</h4>
-      <h4>{nome}</h4>
-      <h4>{quantity}</h4>
-      <h4>{unitValue}</h4>
-      <h4>{subtotal}</h4>
+      <span
+        data-testid={ `customer_order_details__element-order-table-item-number-${index}` }
+      >
+        {index}
+
+      </span>
+      {' '}
+      <span
+        data-testid={ `customer_order_details__element-order-table-name-${index}` }
+      >
+        {nome}
+
+      </span>
+      {' '}
+      <span
+        data-testid={ `customer_order_details__element-order-table-quantity-${index}` }
+      >
+        {quantity}
+
+      </span>
+      {' '}
+      <span
+        data-testid={ `customer_order_details__element-order-table-sub-total-${index}` }
+      >
+        {unitValue}
+
+      </span>
+      {' '}
+      <span
+        data-testid={ `customer_order_details__element-order-total-price-${index}` }
+      >
+        {subtotal}
+
+      </span>
     </div>
   );
 }

@@ -1,22 +1,52 @@
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+// import PropTypes from 'prop-types';
+// import { useHistory } from 'react-router-dom';
 
 export default function DetailBar() {
   return (
     <div className="navBarContainer">
-      <h1>detail bar</h1>
-      <h4>id</h4>
-      <h4>seller name</h4>
-      <h4>data</h4>
-      <h4>status</h4>
+
+      <span
+        data-testid="customer_order_details__element-order-details-label-order-id"
+      >
+        id
+
+      </span>
+      {' '}
+      <span
+        data-testid="customer_order_details__element-order-details-label-seller-name"
+      >
+        seller name
+
+      </span>
+      {' '}
+      <span
+        data-testid="customer_order_details__element-order-details-label-order-date"
+      >
+        data
+
+      </span>
+      {' '}
+      <span
+        data-testid="customer_order_details__element-order-details-label-delivery-status
+        "
+      >
+        status
+
+      </span>
+      {' '}
       <button
         type="button"
       >
-        marcar como entreguer
+        <span
+          data-testid="customer_order_details__button-delivery-check"
+        >
+          marcar como entregue
+
+        </span>
       </button>
 
     </div>
   );
 }
 
-DetailBar.propTypes = {};
+// DetailBar.propTypes = {};
