@@ -6,48 +6,100 @@ import apiCallGeneric from '../Helpers/apiGeneric';
 import apiPostGeneric from '../Helpers/apiPostGeneric';
 
 export default function Products() {
+  const history = useHistory();
+
+  const [item, setItem] = useState(0);
+  const [description, setDescription] = useState('');
+  const [unitValue, setUnitValue] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
+
   const data = [
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
     {
+      item,
+      description,
       quantity: 0,
+      unitValue,
+      subTotal,
     },
   ];
+
   const [productsArr, setproductsArr] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [isLogged, setisLogged] = useState(true);
   const [userName, setuserName] = useState('');
   const [state, setState] = useState(data);
   const [checkoutValue, setcheckoutValue] = useState('0');
-  const history = useHistory();
+
   useEffect(() => {
     const products = async () => {
       const response = await apiCallGeneric('products');
@@ -79,12 +131,21 @@ export default function Products() {
       [name]: (Number(value) + 1) < 0 ? 0 : (Number(value) + 1),
     };
     setState(newState);
+
+    // Carrinho
     let price = 0;
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
     });
     const finalPrice = price.toFixed(2).toString().replace('.', ',');
     setcheckoutValue(finalPrice);
+
+    // Implementar
+    localStorage.setItem('cart', newState);
+    setItem();
+    setDescription();
+    setUnitValue();
+    setSubTotal();
   };
 
   const subtract = (e, i) => {
@@ -95,6 +156,8 @@ export default function Products() {
       [name]: (Number(value) - 1) < 0 ? 0 : (Number(value) - 1),
     };
     setState(newState);
+
+    // Carrinho
     let price = 0;
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
@@ -111,6 +174,8 @@ export default function Products() {
       [name]: Number(value) < 0 ? 0 : value,
     };
     setState(newState);
+
+    // Carrinho
     let price = 0;
     newState.forEach((objectQty, index) => {
       price += objectQty.quantity * productsArr[index].price;
