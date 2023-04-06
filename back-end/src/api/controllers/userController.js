@@ -31,6 +31,7 @@ const validateLoginHandler = async (req, res) => {
   try {
     const { email, password } = req.body;
     const response = await getByEmailandPassword(email, password);
+    console.log('aqui', response);
     return res.status(200).json(response);
   } catch (error) {
   return res.status(404).json({ message: error.message });

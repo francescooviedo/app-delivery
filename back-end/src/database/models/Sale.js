@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       field: 'user_id',
       references: {
         model: 'users',
-        key: 'id',
+        key: 'user_id',
       }
     },
     sellerId: {
@@ -32,10 +32,10 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true
   });
 
-  Sale.associate = ({ User, SaleProduct }) => {
+  Sale.associate = ({ User, SalesProduct }) => {
     Sale.belongsTo(User, { foreignKey: 'user_id', as: 'user' }) 
     Sale.belongsTo(User, { foreignKey: 'sellerId', as: 'seller' }) 
-    Sale.hasMany(SaleProduct, { foreignKey: 'saleId', as: 'sale' })
+    Sale.hasMany(SalesProduct, { foreignKey: 'saleId', as: 'sale' })
   };
 
   return Sale;

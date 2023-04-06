@@ -2,9 +2,9 @@ const express = require('express');
 require('express-async-errors');
 const cors = require('cors');
 const path = require('path');
-const salesRouter = require('./Router/saleRouter');
 const userRoutes = require('./Router/userRoutes');
 const productRouter = require('./Router/productRoutes');
+const salesRouter = require('./Router/salesRoutes');
 
 const app = express();
 app.use(cors());
@@ -20,9 +20,10 @@ const accessControl = (_req, res, next) => {
 
 app.use(accessControl);
 
-app.use('/sales', salesRouter);
 app.use(userRoutes);
+app.use(salesRouter);
 app.use(productRouter);
+
 app.use((err, _req, _res, _next) => {
     console.log(err);
 });
