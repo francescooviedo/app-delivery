@@ -40,7 +40,15 @@ export default function Login() {
           role,
           token },
       ));
-      history.push('/customer/products');
+      switch (role) {
+      case 'administrator': history.push('/admin/manage');
+        break;
+      case 'customer': history.push('/customer/products');
+        break;
+      case 'seller': history.push('/seller/orders');
+        break;
+      default: history.push('/');
+      }
     }
   };
 

@@ -5,6 +5,7 @@ const emailVal = async (userData) => {
     const fetchAPI = await fetch(APIURL, {
       method: 'POST',
       headers: {
+        authorization: userData.token,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userData),

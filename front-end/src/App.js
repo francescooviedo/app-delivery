@@ -5,6 +5,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Products from './Pages/Products';
 import Checkout from './Pages/Checkout';
+import Admin from './Pages/Admin';
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
           <Route exact path="/login" component={ Login } />
           <Route exact path="/register" component={ Register } />
           <Route exact path="/customer/products" component={ Products } />
-          {/* <Route exact path="/customer/checkout" component={ Products } /> */}
-          {/* <Route exact path="/customer/orders" component={ Orders } /> */}
           <Route exact path="/customer/checkout" component={ Checkout } />
+          <Route exact path="/admin/manage" component={ Admin } />
+          {/*           <Route exact path="/customer/orders" component={ Orders } />
+          <Route exact path="/customer/checkout" component={ Checkout } /> */}
         </Switch>
       </Provider>
     </main>
