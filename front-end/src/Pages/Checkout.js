@@ -1,12 +1,24 @@
-import React /* , { useContext } */ from 'react';
-/* import { useHistory } from 'react-router-dom'; */
+import React, { useContext, useEffect } from 'react';
 import NavBar from '../Components/navBar';
 import Table from '../Components/Table';
+import MyContext from '../Context/MyContext';
 
 function Checkout() {
-  /* const history = useHistory(); */
+  const { totalPrice, setTotalPrice, cart, setCart } = useContext(MyContext);
 
-  /* const { totalPrice, setTotalPrice, order, orderId, setOrderId } = useContext(MyContext); */
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem('cart')));
+  }, []);
+
+  useEffect(() => {
+    const sumPrice = cart.reduce((acc, item) => {
+      if (item.quantity) {
+        acc += item.quantity * item.price;
+      }
+      return acc;
+    }, 0);
+    setTotalPrice(sumPrice.toFixed(2).replace('.', ','));
+  }, [cart]);
 
   return (
     <>
@@ -17,7 +29,7 @@ function Checkout() {
         <span
           data-testid="customer_checkout__element-order-total-price"
         >
-          Total Price
+          { totalPrice }
         </span>
       </div>
     </>
