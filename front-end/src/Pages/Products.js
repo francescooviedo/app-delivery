@@ -6,6 +6,8 @@ import apiCallGeneric from '../Helpers/apiGeneric';
 import apiPostGeneric from '../Helpers/apiPostGeneric';
 
 export default function Products() {
+  const history = useHistory();
+
   const data = [
     {
       quantity: 0,
@@ -41,17 +43,19 @@ export default function Products() {
       quantity: 0,
     },
   ];
+
   const [productsArr, setproductsArr] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [isLogged, setisLogged] = useState(true);
   const [userName, setuserName] = useState('');
   const [state, setState] = useState(data);
   const [checkoutValue, setcheckoutValue] = useState('0');
-  const history = useHistory();
+
   useEffect(() => {
     const products = async () => {
       const response = await apiCallGeneric('products');
       setproductsArr(response);
+      setState(response);
     };
     setisLoading(false);
     const validateUsers = async () => {
@@ -79,9 +83,13 @@ export default function Products() {
       [name]: (Number(value) + 1) < 0 ? 0 : (Number(value) + 1),
     };
     setState(newState);
+
+    // Carrinho
     let price = 0;
     newState.forEach((objectQty, index) => {
-      price += objectQty.quantity * productsArr[index].price;
+      if (objectQty.quantity) {
+        price += objectQty.quantity * productsArr[index].price;
+      }
     });
     const finalPrice = price.toFixed(2).toString().replace('.', ',');
     setcheckoutValue(finalPrice);
@@ -95,11 +103,17 @@ export default function Products() {
       [name]: (Number(value) - 1) < 0 ? 0 : (Number(value) - 1),
     };
     setState(newState);
+
+    // Carrinho
     let price = 0;
     newState.forEach((objectQty, index) => {
-      price += objectQty.quantity * productsArr[index].price;
+      if (objectQty.quantity) {
+        price -= objectQty.quantity * productsArr[index].price;
+      }
     });
-    const finalPrice = price.toFixed(2).toString().replace('.', ',');
+
+    // *****
+    const finalPrice = price.toFixed(2).toString().replace('.', ',').replace('-', '');
     setcheckoutValue(finalPrice);
   };
 
@@ -111,9 +125,11 @@ export default function Products() {
       [name]: Number(value) < 0 ? 0 : value,
     };
     setState(newState);
+
+    // Carrinho
     let price = 0;
     newState.forEach((objectQty, index) => {
-      price += objectQty.quantity * productsArr[index].price;
+      price += +objectQty.quantity * +productsArr[index].price;
     });
     const finalPrice = price.toFixed(2).toString().replace('.', ',');
     setcheckoutValue(finalPrice);
@@ -121,6 +137,20 @@ export default function Products() {
   // ***************************aqui***************************
   const redirectCheckout = () => {
     history.push('/customer/checkout');
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    if (cart === null) {
+      const newCart = [...state];
+      const filteredCart = newCart.filter((i) => i.quantity > 0);
+      localStorage.setItem('cart', JSON.stringify(filteredCart));
+    }
+
+    if (cart) {
+      const oldCart = JSON.parse(localStorage.getItem('cart'));
+      const newCart = [...oldCart, state];
+
+      const filteredCart = newCart.filter((i) => i.quantity > 0);
+      localStorage.setItem('cart', JSON.stringify(filteredCart));
+    }
   };
 
   return (
@@ -140,7 +170,6 @@ export default function Products() {
             subtract={ (e) => subtract(e, index) }
             onChange={ (e) => handleChange(e, index) }
           />
-
         ))}
       <button
         type="button"

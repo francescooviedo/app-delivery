@@ -4,6 +4,7 @@ import Provider from './Components/Provider';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Products from './Pages/Products';
+import Checkout from './Pages/Checkout';
 import Admin from './Pages/Admin';
 
 function App() {
