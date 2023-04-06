@@ -4,9 +4,19 @@ import { useHistory } from 'react-router-dom';
 export default function NavBar({ nome }) {
   const history = useHistory();
 
-  const redirect = () => {
-    localStorage.clear();
-    history.push('/login');
+  const redirect = (event) => {
+    switch (event.target.name) {
+    case 'products':
+      history.push('/customer/products');
+      break;
+    case 'logout':
+      history.push('/login');
+      localStorage.clear();
+      break;
+    default:
+      localStorage.clear();
+      history.push('/');
+    }
   };
 
   return (
@@ -15,7 +25,9 @@ export default function NavBar({ nome }) {
 
         <button
           data-testid="customer_products__element-navbar-link-products"
+          onClick={ (e) => redirect(e) }
           type="button"
+          name="products"
         >
           produtos
         </button>
@@ -32,7 +44,8 @@ export default function NavBar({ nome }) {
         <button
           type="button"
           data-testid="customer_products__element-navbar-link-logout"
-          onClick={ () => redirect() }
+          name="logout"
+          onClick={ (e) => redirect(e) }
         >
           sair
         </button>
