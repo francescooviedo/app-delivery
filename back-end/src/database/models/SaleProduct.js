@@ -1,13 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-  const SaleProduct = sequelize.define('SaleProduct', {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+  const SalesProduct = sequelize.define('SalesProduct', {
     saleId: {
       type: DataTypes.INTEGER,
       foreignKey: true,
+      primaryKey: true,
       references: {
         model: 'sale',
         key: 'id'
@@ -30,9 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
   });
 
- SaleProduct.associate = ({ Sale, Product} ) => {
-  SaleProduct.belongsTo(Sale, { foreignKey: 'saleId' });
-  SaleProduct.belongsTo(Product, { foreignKey: 'productId' });
+SalesProduct.associate = ({ Sale, Product} ) => {
+  SalesProduct.belongsTo(Sale, { foreignKey: 'saleId' });
+  SalesProduct.belongsTo(Product, { foreignKey: 'productId' });
   }
-  return SaleProduct;
+  return SalesProduct;
 }

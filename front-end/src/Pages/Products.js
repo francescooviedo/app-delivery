@@ -46,7 +46,6 @@ export default function Products() {
 
   const [productsArr, setproductsArr] = useState([]);
   const [isLoading, setisLoading] = useState(true);
-  const [isLogged, setisLogged] = useState(true);
   const [userName, setuserName] = useState('');
   const [state, setState] = useState(data);
   const [checkoutValue, setcheckoutValue] = useState('0');
@@ -62,8 +61,6 @@ export default function Products() {
       if (JSON.parse(localStorage.getItem('user')) !== null) {
         const { token, name } = JSON.parse(localStorage.getItem('user'));
         const response = await apiPostGeneric('validateUsers', { token });
-        console.log(response);
-        setisLogged(false);
         setuserName(name);
         if (!response) {
           history.push('/login');
@@ -72,8 +69,7 @@ export default function Products() {
     };
     products();
     validateUsers();
-  }, [setisLogged, history, isLogged]);
-  // ***************************aqui***************************
+  }, [history]);
 
   const sum = (e, i) => {
     const { value, name } = e.target;
@@ -122,7 +118,7 @@ export default function Products() {
     const newState = [...state];
     newState[i] = {
       ...newState[i],
-      [name]: Number(value) < 0 ? 0 : value,
+      [name]: Number(value) < 0 ? 0 : Number(value),
     };
     setState(newState);
 
@@ -134,7 +130,6 @@ export default function Products() {
     const finalPrice = price.toFixed(2).toString().replace('.', ',');
     setcheckoutValue(finalPrice);
   };
-  // ***************************aqui***************************
   const redirectCheckout = () => {
     history.push('/customer/checkout');
     const cart = JSON.parse(localStorage.getItem('cart'));
