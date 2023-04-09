@@ -1,13 +1,14 @@
 const APIURL = 'http://localhost:3001/';
 
-const apiPostGeneric = async (ENDPOINT, userData) => {
+const apiPostGeneric = async (ENDPOINT, userData, token) => {
   try {
-    console.log('userdata:', userData);
     const fetchAPI = await fetch(`${APIURL}${ENDPOINT}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: token,
       },
+
       body: JSON.stringify(userData),
     });
     const result = await fetchAPI.json();

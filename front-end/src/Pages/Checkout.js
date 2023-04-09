@@ -1,14 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import NavBar from '../Components/navBar';
 import Table from '../Components/Table';
 import MyContext from '../Context/MyContext';
 
 function Checkout() {
   const { totalPrice, setTotalPrice, cart, setCart } = useContext(MyContext);
-
+  const [totalPriceNum, setTotalPriceNum] = useState();
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem('cart')));
-  }, []);
+    console.log(cart);
+  }, [setCart]);
 
   useEffect(() => {
     const sumPrice = cart.reduce((acc, item) => {
@@ -17,6 +18,7 @@ function Checkout() {
       }
       return acc;
     }, 0);
+    setTotalPriceNum(sumPrice);
     setTotalPrice(sumPrice.toFixed(2).replace('.', ','));
   }, [cart]);
 
@@ -25,7 +27,7 @@ function Checkout() {
       <NavBar />
       <div>
         <h2>Finalizar pedido</h2>
-        <Table />
+        <Table totalPrice={ totalPriceNum } />
         <span
           data-testid="customer_checkout__element-order-total-price"
         >

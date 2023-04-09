@@ -79,7 +79,7 @@ export default function Products() {
       [name]: (Number(value) + 1) < 0 ? 0 : (Number(value) + 1),
     };
     setState(newState);
-
+    console.log(newState);
     // Carrinho
     let price = 0;
     newState.forEach((objectQty, index) => {
@@ -131,21 +131,24 @@ export default function Products() {
     setcheckoutValue(finalPrice);
   };
   const redirectCheckout = () => {
-    history.push('/customer/checkout');
     const cart = JSON.parse(localStorage.getItem('cart'));
     if (cart === null) {
+      console.log('passa aqui');
       const newCart = [...state];
       const filteredCart = newCart.filter((i) => i.quantity > 0);
       localStorage.setItem('cart', JSON.stringify(filteredCart));
     }
 
     if (cart) {
+      console.log('passa aqui !null');
       const oldCart = JSON.parse(localStorage.getItem('cart'));
-      const newCart = [...oldCart, state];
-
+      const newCart = [...state];
+      console.log('new cart', newCart);
       const filteredCart = newCart.filter((i) => i.quantity > 0);
+      console.log('filtrado', filteredCart);
       localStorage.setItem('cart', JSON.stringify(filteredCart));
     }
+    history.push('/customer/checkout');
   };
 
   return (
