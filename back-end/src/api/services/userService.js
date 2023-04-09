@@ -6,6 +6,10 @@ const {
 
 const { User } = require('../../database/models');
 
+const getAllSellers = async () => {
+  const user = await User.findAll({ where: { role: 'seller' } });
+  return user;
+};
 const createUser = async (userData) => {
   const user = await User.create(userData);
   const token = await generateToken(user.id);
@@ -48,4 +52,5 @@ module.exports = {
   getUserById,
   getUserByEmail,
   userValidation, 
+  getAllSellers,
 };

@@ -2,19 +2,8 @@ const { getCurrentDateTime } = require('../utils/currentTime');
 
 const { getAllSales, createSale } = require('../services/salesService');
 const { createSaleProduct } = require('../services/productSaleService');
+const { verifyToken } = require('../utils/cryptoJWT');
 
-const mocksaleproduct = [
-  {
-    saleId: 1,
-    productId: 1,
-    quantity: 1,
-  },
-  {
-    productId: 2,
-    quantity: 2,
-  },
-
-];
 const getAllsales = async (req, res) => {
     try {
         const sales = await getAllSales();
@@ -24,19 +13,19 @@ const getAllsales = async (req, res) => {
     }
   };
   const createSaleHandler = async (req, res) => {
-    try {
+    try { 
       const { 
-        userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, status } = req.body;
-
+        sellerId, totalPrice, deliveryAddress, deliveryNumber,
+         status, products } = req.body;
+         const { authorization } = req.headers;
+        const userId = await verifyToken(authorization);
+        console.log('AQUI O USER ID DO CONTROLLER', userId);
+         if (userId === null) { throw new Error(' invalid token'); }
       const saleDate = getCurrentDateTime();
-
       const { sale } = await createSale({
         userId, sellerId, totalPrice, deliveryAddress, deliveryNumber, saleDate, status });
-        const newArr = mocksaleproduct.map((product) => ({
-          saleId: sale.id,
-          productId: product.productId,
-          quantity: product.quantity,
-        }));
+        const newArr = products.map((product) => ({ 
+          saleId: sale.id, productId: product.id, quantity: product.quantity }));
        await createSaleProduct(newArr);
        return res.status(201).json(sale.id);
     } catch (error) {

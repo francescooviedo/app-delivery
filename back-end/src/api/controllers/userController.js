@@ -5,11 +5,14 @@ const {
   getByEmailandPassword,
   getUserByEmail,
   userValidation,
-  // updateUser,
-  // deleteUser,
-  
+  getAllSellers,  
     } = require('../services/userService');
 const { hashPassword } = require('../utils/cryptoJWT');
+
+const getAllSellersHandler = async (req, res) => {
+  const products = await getAllSellers();
+  res.json(products);
+};
 
 const createUserHandler = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -55,8 +58,14 @@ const validateUsers = async (req, res) => {
     return res.status(404).json(error.message);
   }
 };
-
+const getUserIdHandler = async (req, res) => {
+  const { email } = req.body;
+  const user = await getUserByEmail(email);
+  res.status(200).json(user);
+};
 module.exports = {
+  getUserIdHandler,
+  getAllSellersHandler,
   createUserHandler,
   getUserByIdHandler,
   validateLoginHandler,

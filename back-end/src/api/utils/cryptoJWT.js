@@ -7,7 +7,7 @@ const secretKey = async () => {
     './jwt.evaluation.key', 
     'utf-8',
   );
-  return data;
+  return data.trim();
 };
 function hashPassword(password) {
     const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
@@ -29,7 +29,7 @@ async function verifyToken(token) {
   try {
     const key = await secretKey();
     const decoded = jwt.verify(token, key);
-    console.log('awqui?:', decoded);
+    console.log('aqui?:', decoded);
     return decoded.userId;
   } catch (err) {
     return null;
