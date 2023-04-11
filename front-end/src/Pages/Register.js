@@ -1,46 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import emailVal from '../Helpers/emailVal';
+import { requestRegister } from '../Helpers/api';
+import { Input, Button, ErrorMessage } from '../inputNButtons';
+import { loginError } from '../inputNButtons/errorMessages';
 
 export default function Register() {
-  const [enableButton, setButton] = useState(true);
+  const [enableButton, setButton] = useState(false);
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [name, setname] = useState('');
   const [failedRegister, setfailedRegister] = useState(false);
+  const history = useHistory();
+  const SIX = 6;
+  const TWELVE = 12;
 
   useEffect(() => {
-    const verifyEmail = '@';
-    const verifyEmailDot = '.com';
-    const minPassword = 6;
-    const doze = 12;
-    const validEmail = email.includes(verifyEmail) && email.includes(verifyEmailDot);
-    const validPassword = password.length >= minPassword;
-    const finalValidation = validEmail && validPassword;
-    if (password.length < minPassword || name.length < doze || !finalValidation) {
-      setButton(true);
-    }
-    if (finalValidation && name.length >= doze) {
+    const isValidForm = (InputEmail, InputPassword, inputName) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(InputEmail) && InputPassword.length >= SIX && inputName.length > TWELVE;
+    console.log(isValidForm(email, password, name));
+    if (isValidForm(email, password, name)) {
       setButton(false);
+    }
+    if (!isValidForm(email, password, name)) {
+      setButton(true);
     }
   }, [email, password, name]);
 
-  const history = useHistory();
-
   const register = async () => {
-    const role = 'customer';
-    const response = await emailVal({ name, email, password, role });
-    const { token } = response;
-    if (!response.user) {
+    const { token } = await requestRegister(
+      '/register',
+      { name, email, password, role: 'customer' },
+    );
+    if (!token) {
       setfailedRegister(true);
     }
-    if (response.user.id !== undefined) {
+    if (token) {
       localStorage.setItem('user', JSON.stringify(
-        {
-          email: response.email,
-          name,
-          role: 'customer',
-          token },
+        { email, name, role: 'customer', token },
       ));
       history.push('/customer/products');
     }
@@ -51,55 +46,46 @@ export default function Register() {
   return (
     <div className="registerForm">
       <form className="RegisterFormComponent">
-        <label htmlFor="name-input">
-          name
-          <input
-            type="text"
-            id="name-input"
-            data-testid="common_register__input-name"
-            value={ name }
-            onChange={ (e) => setname(e.target.value) }
-          />
-        </label>
-        <label htmlFor="email-input">
-          email
-          <input
-            type="email"
-            id="email-input"
-            data-testid="common_register__input-email"
-            value={ email }
-            onChange={ (e) => setemail(e.target.value) }
-          />
-        </label>
-        <label htmlFor="pssword-input">
-          senha
-          <input
-            id="pssword-input"
-            type="password"
-            data-testid="common_register__input-password"
-            value={ password }
-            onChange={ (e) => setpassword(e.target.value) }
-          />
-        </label>
-        <br />
-        <br />
-        <button
-          type="button"
-          data-testid="common_register__button-register"
+        <Input
+          htmlFor="name-input"
+          label="name"
+          testid="common_register__input-name"
+          type="text"
+          name="name"
+          value={ name }
+          onChange={ (e) => setname(e.target.value) }
+        />
+        <Input
+          htmlFor="email-input"
+          label="email"
+          testid="common_register__input-email"
+          type="email"
+          name="email"
+          value={ email }
+          onChange={ (e) => setemail(e.target.value) }
+        />
+        <Input
+          htmlFor="password-input"
+          label="password"
+          testid="common_register__input-password"
+          type="password"
+          name="password"
+          value={ password }
+          onChange={ (e) => setpassword(e.target.value) }
+        />
+        <Button
+          label="register"
+          testid="common_register__button-register"
           onClick={ () => register() }
           disabled={ enableButton }
-        >
-          Cadastrar
-        </button>
+        />
         {
           (failedRegister)
             ? (
-              <p data-testid="common_register__element-invalid_register">
-                {
-                  `O endereço de e-mail ou a senha não estão corretos.
-                    Por favor, tente novamente.`
-                }
-              </p>
+              <ErrorMessage
+                testid="common_register__element-invalid_register"
+                message={ loginError }
+              />
             )
             : null
         }

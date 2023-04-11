@@ -2,170 +2,90 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import NavBar from '../Components/navBar';
 import ProductCard from '../Components/ProductCard';
-import apiCallGeneric from '../Helpers/apiGeneric';
-import apiPostGeneric from '../Helpers/apiPostGeneric';
+import { requestData, setToken } from '../Helpers/api';
 
 export default function Products() {
   const history = useHistory();
 
-  const data = [
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-    {
-      quantity: 0,
-    },
-  ];
-
-  const [productsArr, setproductsArr] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const [userName, setuserName] = useState('');
-  const [state, setState] = useState(data);
-  const [checkoutValue, setcheckoutValue] = useState('0');
+  const [products, setProducts] = useState([]);
+  const [checkoutValue, setcheckoutValue] = useState(0);
+  const [totalValue, setTotalValue] = useState();
 
   useEffect(() => {
-    const products = async () => {
-      const response = await apiCallGeneric('products');
-      setproductsArr(response);
-      setState(response);
-    };
-    setisLoading(false);
-    const validateUsers = async () => {
-      if (JSON.parse(localStorage.getItem('user')) !== null) {
-        const { token, name } = JSON.parse(localStorage.getItem('user'));
-        const response = await apiPostGeneric('validateUsers', { token });
-        setuserName(name);
-        if (!response) {
-          history.push('/login');
-        }
+    const getProducts = async () => {
+      const { token, name } = JSON.parse(localStorage.getItem('user'));
+      setToken(token);
+      const response = (await requestData('/products'))
+        .map((product) => ({ ...product, quantity: 0 }));
+      if (response.token === null) {
+        history.push('/login');
       }
+      setuserName(name);
+      setProducts(response);
+      setisLoading(false);
     };
-    products();
-    validateUsers();
+    getProducts();
   }, [history]);
 
-  const sum = (e, i) => {
-    const { value, name } = e.target;
-    const newState = [...state];
-    newState[i] = {
-      ...newState[i],
-      [name]: (Number(value) + 1) < 0 ? 0 : (Number(value) + 1),
-    };
-    setState(newState);
-    console.log(newState);
-    // Carrinho
-    let price = 0;
-    newState.forEach((objectQty, index) => {
-      if (objectQty.quantity) {
-        price += objectQty.quantity * productsArr[index].price;
-      }
-    });
-    const finalPrice = price.toFixed(2).toString().replace('.', ',');
-    setcheckoutValue(finalPrice);
+  const calculateTotalPrice = (arrProducts) => arrProducts.reduce((total, product) => {
+    if (product.quantity) {
+      total += product.quantity * product.price;
+      setTotalValue(total);
+    }
+    return total;
+  }, 0);
+
+  const sum = (i) => {
+    const newProducts = [...products];
+    const updatedProduct = { ...newProducts[i] };
+    updatedProduct.quantity = Math.max(updatedProduct.quantity + 1, 0);
+    newProducts[i] = updatedProduct;
+    setProducts(newProducts);
+    setcheckoutValue(calculateTotalPrice(newProducts));
   };
 
-  const subtract = (e, i) => {
-    const { value, name } = e.target;
-    const newState = [...state];
-    newState[i] = {
-      ...newState[i],
-      [name]: (Number(value) - 1) < 0 ? 0 : (Number(value) - 1),
-    };
-    setState(newState);
-
-    // Carrinho
-    let price = 0;
-    newState.forEach((objectQty, index) => {
-      if (objectQty.quantity) {
-        price -= objectQty.quantity * productsArr[index].price;
-      }
-    });
-
-    // *****
-    const finalPrice = price.toFixed(2).toString().replace('.', ',').replace('-', '');
-    setcheckoutValue(finalPrice);
+  const subtract = (i) => {
+    const newProducts = [...products];
+    const updatedProduct = { ...newProducts[i] };
+    updatedProduct.quantity = Math.max(updatedProduct.quantity - 1, 0);
+    newProducts[i] = updatedProduct;
+    setProducts(newProducts);
+    setcheckoutValue(calculateTotalPrice(newProducts));
   };
 
   const handleChange = (e, i) => {
-    const { value, name } = e.target;
-    const newState = [...state];
-    newState[i] = {
-      ...newState[i],
-      [name]: Number(value) < 0 ? 0 : Number(value),
-    };
-    setState(newState);
-
-    // Carrinho
-    let price = 0;
-    newState.forEach((objectQty, index) => {
-      price += +objectQty.quantity * +productsArr[index].price;
-    });
-    const finalPrice = price.toFixed(2).toString().replace('.', ',');
-    setcheckoutValue(finalPrice);
+    const newProducts = [...products];
+    const updatedProduct = { ...newProducts[i] };
+    updatedProduct.quantity = Math.max(Number(e.target.value), 0);
+    newProducts[i] = updatedProduct;
+    setProducts(newProducts);
+    setcheckoutValue(calculateTotalPrice(newProducts));
   };
-  const redirectCheckout = () => {
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    if (cart === null) {
-      console.log('passa aqui');
-      const newCart = [...state];
-      const filteredCart = newCart.filter((i) => i.quantity > 0);
-      localStorage.setItem('cart', JSON.stringify(filteredCart));
-    }
 
-    if (cart) {
-      console.log('passa aqui !null');
-      const oldCart = JSON.parse(localStorage.getItem('cart'));
-      const newCart = [...state];
-      console.log('new cart', newCart);
-      const filteredCart = newCart.filter((i) => i.quantity > 0);
-      console.log('filtrado', filteredCart);
-      localStorage.setItem('cart', JSON.stringify(filteredCart));
-    }
+  const redirectCheckout = () => {
+    const newCart = [...products];
+    const filteredCart = newCart.filter((i) => i.quantity > 0);
+    localStorage.setItem('cart', JSON.stringify(filteredCart));
+    localStorage.setItem('totalPrice', JSON.stringify(totalValue));
     history.push('/customer/checkout');
   };
-
   return (
     <div className="cardContainer">
       <NavBar nome={ userName } />
       {isLoading
         ? <h1>is loading..</h1>
-        : productsArr.map((product, index) => (
+        : products.map((product, index) => (
           <ProductCard
             id={ product.id }
             key={ index }
-            value={ state[index].quantity }
+            value={ products[index].quantity }
             name={ product.name }
             price={ product.price.toString().replace('.', ',') }
             url={ product.url_image }
-            sum={ (e) => sum(e, index) }
-            subtract={ (e) => subtract(e, index) }
+            sum={ () => sum(index) }
+            subtract={ () => subtract(index) }
             onChange={ (e) => handleChange(e, index) }
           />
         ))}
@@ -173,12 +93,12 @@ export default function Products() {
         type="button"
         data-testid="customer_products__button-cart"
         onClick={ () => redirectCheckout() }
-        disabled={ checkoutValue === '0' }
+        disabled={ checkoutValue === '0' || checkoutValue === 0 }
       >
         <div>
           Ver Carrinho: R$
           <span data-testid="customer_products__checkout-bottom-value">
-            { checkoutValue }
+            { checkoutValue.toFixed(2).replace('.', ',') }
           </span>
         </div>
       </button>

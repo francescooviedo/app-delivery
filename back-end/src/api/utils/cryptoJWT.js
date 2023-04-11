@@ -1,35 +1,24 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const fs = require('fs/promises');
+const jwtKey = require('fs')
+  .readFileSync('jwt.evaluation.key', { encoding: 'utf-8' });
 
-const secretKey = async () => {
-  const data = await fs.readFile(
-    './jwt.evaluation.key', 
-    'utf-8',
-  );
-  return data.trim();
-};
+  const jwtConfig = { expiresIn: '1d', algorithm: 'HS256' };
+
 function hashPassword(password) {
     const hashedPassword = crypto.createHash('md5').update(password).digest('hex');
     return hashedPassword;
   }
 
-async function generateToken(userId) {
-  const options = {
-        expiresIn: '3d',
-        algorithm: 'HS256',
-      };
-  const key = await secretKey();
-  const token = jwt.sign({ userId }, key, options);
+function generateToken(userId) {
+  const token = jwt.sign({ userId }, jwtKey, jwtConfig);
   console.log(token);
   return token;
 }
 
-async function verifyToken(token) {
+function verifyToken(token) {
   try {
-    const key = await secretKey();
-    const decoded = jwt.verify(token, key);
-    console.log('aqui?:', decoded);
+    const decoded = jwt.verify(token, jwtKey);
     return decoded.userId;
   } catch (err) {
     return null;

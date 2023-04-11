@@ -18,7 +18,7 @@ const createUserHandler = async (req, res) => {
   const { name, email, password, role } = req.body;
   const userEmail = await getByEmail(email);
   if (userEmail) {
-    return res.status(409).json({}); 
+    return res.status(409).json({ token: null }); 
   }
   const passwordMD5 = hashPassword(password);
   const user = await createUser({ name, email, password: passwordMD5, role });

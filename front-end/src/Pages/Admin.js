@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import apiPostGeneric from '../Helpers/apiPostGeneric';
 import NavBarAdmin from '../Components/navBarAdmin';
 import emailVal from '../Helpers/emailVal';
+import { setToken } from '../Helpers/api';
 
 export default function Admin() {
   const [enableButton, setButton] = useState(true);
@@ -17,24 +18,19 @@ export default function Admin() {
   const history = useHistory();
 
   useEffect(() => {
-    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const validEmail = regexEmail.test(newEmail);
-    const minPassword = 6;
-    const doze = 12;
-    const validPassword = newPassword.length >= minPassword;
-    const finalValidation = validEmail && validPassword;
+    const isValidForm = (InputEmail, InputPassword, inputName) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(InputEmail) && InputPassword.length >= SIX && inputName.length > TWELVE;
 
-    if (newPassword.length < minPassword || newName.length < doze || !finalValidation) {
+    if (!isValidForm(newEmail, newPassword, newName)) {
       setButton(true);
     }
-    if (finalValidation && newName.length >= doze) {
+    if (isValidForm(newEmail, newPassword, newName)) {
       setButton(false);
     }
-
     setisLoading(false);
     const validateUsers = async () => {
       if (JSON.parse(localStorage.getItem('user')) !== null) {
         const { token, name } = JSON.parse(localStorage.getItem('user'));
+        setToken(token);
         const response = await apiPostGeneric('validateUsers', { token });
         console.log('entrou no useEffect');
         setisLogged(false);
@@ -51,17 +47,8 @@ export default function Admin() {
     setRole(event.target.value);
   };
 
-  // const cleanInputs = () => {
-  //   setNewName('');
-  //   setNewEmail('');
-  //   setNewPassword('');
-  //   setRole('seller');
-  // };
-
   const register = async () => {
     const userLocalStorage = JSON.parse(localStorage.getItem('user'));
-    console.log(userLocalStorage);
-    console.log('local storage de user');
     if (!userLocalStorage.token) { return 'token is required'; }
 
     const response = await emailVal(
@@ -83,7 +70,6 @@ export default function Admin() {
           role,
           token },
       ));
-      // cleanInputs();
     }
   };
 

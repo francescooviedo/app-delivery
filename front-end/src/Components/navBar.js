@@ -38,7 +38,13 @@ export default function NavBar({ nome }) {
         </button>
       </div>
       <div>
-        <h4 data-testid="customer_products__element-navbar-user-full-name">{nome}</h4>
+        <h4
+          data-testid="customer_products__element-navbar-user-full-name"
+          className="nomeNavBar"
+        >
+          {nome}
+
+        </h4>
       </div>
       <div>
         <button
