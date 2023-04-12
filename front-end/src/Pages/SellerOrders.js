@@ -4,7 +4,7 @@ import { requestData } from '../Helpers/api';
 import NavBar from '../Components/navBar';
 import SellerOrderCard from '../Components/SellerOrderCard';
 
-import '../Css/login.css';
+// import '../Css/login.css';
 
 export default function SellerOrders() {
   const [userName, setUserName] = useState();

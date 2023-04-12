@@ -4,7 +4,7 @@ import { requestData } from '../Helpers/api';
 import NavBar from '../Components/navBar';
 import OrderCard from '../Components/OrderCard';
 
-import '../Css/login.css';
+// import '../Css/login.css';
 
 export default function Orders() {
   const [userName, setUserName] = useState();
