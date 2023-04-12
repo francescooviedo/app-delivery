@@ -14,6 +14,9 @@ export default function Login() {
   const SIX = 6;
 
   useEffect(() => {
+    if (localStorage.getItem('user')) {
+      history.push('/customer/products');
+    }
     const isValidForm = (InputEmail, InputPassword) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(InputEmail) && InputPassword.length >= SIX;
     if (!isValidForm(email, password)) {
       setButton(true);
@@ -21,7 +24,7 @@ export default function Login() {
     if (isValidForm(email, password)) {
       setButton(false);
     }
-  }, [email, password]);
+  }, [email, history, password]);
 
   const enterApp = async () => {
     const { name, role, token } = await requestLogin('/login', { email, password });

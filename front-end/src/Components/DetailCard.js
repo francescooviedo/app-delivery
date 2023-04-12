@@ -14,7 +14,7 @@ export default function DetailCard({
       <span
         data-testid={ `customer_order_details__element-order-table-item-number-${index}` }
       >
-        {index}
+        {index + 1}
 
       </span>
       {' '}
@@ -53,5 +53,5 @@ DetailCard.propTypes = {
   nome: PropTypes.string.isRequired,
   unitValue: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
-  subtotal: PropTypes.string.isRequired,
+  subtotal: PropTypes.number.isRequired,
 };

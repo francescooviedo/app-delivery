@@ -1,7 +1,7 @@
 const { getCurrentDateTime } = require('../utils/currentTime');
 
-const { getAllSales, createSale } = require('../services/salesService');
-const { createSaleProduct } = require('../services/productSaleService');
+const { getAllSales, createSale, getSaleById } = require('../services/salesService');
+const { createSaleProduct, getSaleProductById } = require('../services/productSaleService');
 const { verifyToken } = require('../utils/cryptoJWT');
 
 const getAllsales = async (req, res) => {
@@ -10,6 +10,19 @@ const getAllsales = async (req, res) => {
    return res.status(200).json(sales);
     } catch (error) {
         return res.status(404).json({ error: error.message });
+    }
+  };
+  const getSaleByIdHandler = async (req, res) => {
+    try {
+      const { id } = req.params;
+    const sale = await getSaleById(id);
+    console.log('sale:', sale);
+    const products = await getSaleProductById(id);
+    console.log('products:', products);
+
+    return res.status(200).json({ products, sale });
+    } catch (error) {
+      return res.status(404).json(error.message);
     }
   };
   const createSaleHandler = async (req, res) => {
@@ -33,4 +46,5 @@ const getAllsales = async (req, res) => {
   module.exports = {
     getAllsales,
     createSaleHandler,
+    getSaleByIdHandler,
   };

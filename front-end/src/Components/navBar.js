@@ -13,6 +13,9 @@ export default function NavBar({ nome }) {
       history.push('/login');
       localStorage.clear();
       break;
+    case 'pedidos':
+      history.push('/customer/orders');
+      break;
     default:
       localStorage.clear();
       history.push('/');
@@ -33,8 +36,13 @@ export default function NavBar({ nome }) {
         </button>
       </div>
       <div>
-        <button data-testid="customer_products__element-navbar-link-orders" type="button">
-          meus produtos
+        <button
+          data-testid="customer_products__element-navbar-link-orders"
+          type="button"
+          name="pedidos"
+          onClick={ (e) => redirect(e) }
+        >
+          meus pedidos
         </button>
       </div>
       <div>

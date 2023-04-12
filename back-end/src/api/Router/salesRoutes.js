@@ -1,12 +1,16 @@
 const express = require('express');
-
-const { getAllsales,
+const { 
+    getAllsales,
     createSaleHandler,
- } = require('../controllers/salesController');
+    getSaleByIdHandler,
+     } = require('../controllers/salesController');
+     
 const { auth } = require('../middleware/auth');
 
 const salesRouter = express.Router();
 
 salesRouter.get('/sales', getAllsales)
-.post('/sales', auth, createSaleHandler);
+ .post('/sales', auth, createSaleHandler)
+ .get('/sales/:id', getSaleByIdHandler);
+ 
 module.exports = salesRouter;
