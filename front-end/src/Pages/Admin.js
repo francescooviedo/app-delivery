@@ -16,6 +16,8 @@ export default function Admin() {
   const [role, setRole] = useState('seller');
   const [failedRegister, setfailedRegister] = useState(false);
   const history = useHistory();
+  const SIX = 6;
+  const TWELVE = 12;
 
   useEffect(() => {
     const isValidForm = (InputEmail, InputPassword, inputName) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(InputEmail) && InputPassword.length >= SIX && inputName.length > TWELVE;
