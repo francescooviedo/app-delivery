@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { requestData } from '../Helpers/api';
-import NavBar from '../Components/navBar';
+import SellerNavBar from '../Components/SellerNavBar';
 import SellerOrderCard from '../Components/SellerOrderCard';
 
 // import '../Css/login.css';
@@ -16,6 +16,7 @@ export default function SellerOrders() {
     setUserName(name);
     const getSales = async () => {
       const response = await requestData('sales');
+      console.log(response);
       const userOrders = response.filter((order) => (order.seller.name === name));
       setOrders(userOrders);
       console.log(userOrders);
@@ -31,7 +32,7 @@ export default function SellerOrders() {
   }
   return (
     <div>
-      <NavBar nome={ userName } />
+      <SellerNavBar nome={ userName } />
       <h1>SellerOrders</h1>
       {
         orders.map((order, index) => (

@@ -40,4 +40,14 @@ export const requestPostData = async (endpoint, body) => {
   return data;
 };
 
+export const updateSaleStatus = async (endpoint, body) => {
+  try {
+    const { data } = await api.patch(endpoint, body);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return { error: error.message };
+  }
+};
+
 export default api;

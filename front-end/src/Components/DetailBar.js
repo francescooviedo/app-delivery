@@ -6,6 +6,7 @@ export default function DetailBar({
   sellerName,
   data,
   status,
+  updateStatus,
 }) {
   return (
     <div className="navBarContainer">
@@ -40,8 +41,10 @@ export default function DetailBar({
       {' '}
       <button
         type="button"
+        name="Entregue"
         data-testid="customer_order_details__button-delivery-check"
-        disabled
+        disabled={ status !== 'Em Trânsito' }
+        onClick={ updateStatus }
       >
         marcar como entregue
       </button>
@@ -54,4 +57,5 @@ DetailBar.propTypes = {
   sellerName: PropTypes.string.isRequired,
   data: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  updateStatus: PropTypes.func.isRequired,
 };
