@@ -8,13 +8,12 @@ import Checkout from './Pages/Checkout';
 import Admin from './Pages/Admin';
 import OrderDetail from './Pages/OrderDetail';
 import SellerOrderDetail from './Pages/SellerOrderDetail';
-
 import Order from './Pages/Order';
 import SellerOrders from './Pages/SellerOrders';
 
 function App() {
   return (
-    <main>
+    <main className="flex items-center justify-center bg-eastern-blue-500">
       <Provider>
         <Switch>
           <Route exact path="/">

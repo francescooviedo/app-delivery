@@ -44,8 +44,12 @@ export default function Register() {
   };
 
   return (
-    <div className="registerForm">
-      <form className="RegisterFormComponent">
+    <div className="flex flex-col md:h-screen justify-center">
+      <form
+        className="bg-eastern-blue-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 text-center
+          border-solid border-2 border-eastern-blue-500/50 flex flex-col items-center
+          justify-center px-6 py-8 mx-auto lg:py-0 h-80"
+      >
         <Input
           htmlFor="name-input"
           label="name"

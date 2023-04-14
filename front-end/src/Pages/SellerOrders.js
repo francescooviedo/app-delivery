@@ -16,10 +16,8 @@ export default function SellerOrders() {
     setUserName(name);
     const getSales = async () => {
       const response = await requestData('sales');
-      console.log(response);
       const userOrders = response.filter((order) => (order.seller.name === name));
       setOrders(userOrders);
-      console.log(userOrders);
       setIsLoading(false);
     };
     getSales();
@@ -31,9 +29,13 @@ export default function SellerOrders() {
     return <h1>is Loading</h1>;
   }
   return (
-    <div>
+    <div className="flex flex-col grid-rows-4 ">
       <SellerNavBar nome={ userName } />
-      <h1>SellerOrders</h1>
+      <h1
+        className="text-center text-eastern-blue-100 m-2 text-5xl p-2 font-bold"
+      >
+        SellerOrders
+      </h1>
       {
         orders.map((order, index) => (
           <SellerOrderCard

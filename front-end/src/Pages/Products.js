@@ -72,7 +72,7 @@ export default function Products() {
     history.push('/customer/checkout');
   };
   return (
-    <div className="cardContainer">
+    <div className="bg-eastern-blue-800/50 rounded">
       <NavBar nome={ userName } />
       {isLoading
         ? <h1>is loading..</h1>
@@ -94,6 +94,11 @@ export default function Products() {
         data-testid="customer_products__button-cart"
         onClick={ () => redirectCheckout() }
         disabled={ checkoutValue === '0' || checkoutValue === 0 }
+        className={ checkoutValue === 0
+          ? 'text-eastern-blue-200 bg-eastern-blue-700/50 rounded py-2 px-4 font-bold m-1'
+          : `bg-eastern-blue-500 hover:bg-eastern-blue-400 text-eastern-blue-50 font-bold
+          py-2 px-4 rounded focus:outline-none m-1 
+           focus:shadow-outline text-eastern-blue-50` }
       >
         <div>
           Ver Carrinho: R$

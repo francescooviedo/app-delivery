@@ -11,12 +11,24 @@ export default function CheckoutInfo({
 
 }) {
   return (
-    <form>
+    <form className="bg-eastern-blue-700 p-3 rounded flex flex-col">
       <select
         id="seller"
         name="seller"
         data-testid="customer_checkout__select-seller"
         onChange={ setSelectedSeller }
+        className="shadow
+        appearance-none
+        border
+        border-eastern-blue-700
+         text-eastern-blue-700
+          rounded
+           w-full
+           py-2 px-3
+            mb-3
+            leading-tight
+            focus:outline-none
+            focus:shadow-outline"
       >
         <option value="default">default</option>
         { sellers.map((sellerName) => (

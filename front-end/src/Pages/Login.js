@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { requestLogin } from '../Helpers/api';
 import { Input, Button, ErrorMessage } from '../inputNButtons';
 import { loginError } from '../inputNButtons/errorMessages';
-// import '../Css/login.css';
 
 export default function Login() {
   const [enableButton, setButton] = useState(true);
@@ -49,8 +48,12 @@ export default function Login() {
     history.push('/register');
   };
   return (
-    <div className="loginContainer">
-      <form className="Login">
+    <div className="flex flex-col md:h-screen justify-center">
+      <form
+        className="bg-eastern-blue-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 text-center
+          border-solid border-2 border-eastern-blue-500/50 flex flex-col items-center
+          justify-center px-6 py-8 mx-auto lg:py-0 h-80"
+      >
         <Input
           htmlFor="email-input"
           label="Email"
@@ -69,19 +72,19 @@ export default function Login() {
           value={ password }
           onChange={ (e) => setpassword(e.target.value) }
         />
-        <br />
-        <br />
-        <Button
-          label="login"
-          testid="common_login__button-login"
-          onClick={ () => enterApp() }
-          disabled={ enableButton }
-        />
-        <Button
-          label="register"
-          testid="common_login__button-register"
-          onClick={ () => register() }
-        />
+        <div className="flex flex-row m-3">
+          <Button
+            label="login"
+            testid="common_login__button-login"
+            onClick={ () => enterApp() }
+            disabled={ enableButton }
+          />
+          <Button
+            label="register"
+            testid="common_login__button-register"
+            onClick={ () => register() }
+          />
+        </div>
         {
           (failedLogin)
             ? (

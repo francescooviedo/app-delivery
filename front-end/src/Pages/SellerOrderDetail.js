@@ -38,7 +38,7 @@ export default function SellerOrderDetail() {
 
   if (isLoading) { return (<h1>is loading..</h1>); }
   return (
-    <div>
+    <div className="bg-eastern-blue-800/50 rounded mx-auto md:h-screen lg:py-0">
       <p />
       <SellerNavBar nome={ userName } />
       <SellerDetailBar
@@ -49,7 +49,12 @@ export default function SellerOrderDetail() {
         updateStatus={ (e) => update(e.target.name) }
 
       />
-      <h1>DETAILS</h1>
+      <h1
+        className="text-center text-eastern-blue-100 m-2 text-6xl p-2 font-bold"
+      >
+        DETAILS
+
+      </h1>
       {products.map((product, index) => (
         <SellerDetailCard
           key={ index }
@@ -62,7 +67,13 @@ export default function SellerOrderDetail() {
       ))}
       <p />
 
-      <p data-testid="seller_order_details__element-order-total-price">
+      <p
+        className={ `
+      bg-eastern-blue-800 text-eastern-blue-50 
+font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline
+text-eastern-blue-50 mx-2` }
+        data-testid="seller_order_details__element-order-total-price"
+      >
         {sale.totalPrice.replace('.', ',')}
       </p>
 

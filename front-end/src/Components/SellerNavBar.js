@@ -20,7 +20,10 @@ export default function SellerNavBar({ nome }) {
   };
 
   return (
-    <div className="navBarContainer">
+    <div
+      className={ `flex flex-row border-2  m-2 shadow bg-eastern-blue-800
+    rounded border-eastern-blue-900 bg-eastern-blue p-3` }
+    >
       <div>
 
         <button
@@ -28,6 +31,12 @@ export default function SellerNavBar({ nome }) {
           onClick={ (e) => redirect(e) }
           type="button"
           name="orders"
+          className={ `bg-eastern-blue-500 hover:bg-eastern-blue-400 text-eastern-blue-50 
+          font-bold
+            py-2 px-4 rounded focus:outline-none
+             focus:shadow-outline text-eastern-blue-50 flex-1
+             flex flex-col justify-center flex-1 mx-2
+             ` }
         >
           pedidos
         </button>
@@ -35,7 +44,10 @@ export default function SellerNavBar({ nome }) {
       <div>
         <h4
           data-testid="customer_products__element-navbar-user-full-name"
-          className="nomeNavBar"
+          className={ `bg-eastern-blue-500 text-eastern-blue-50 font-bold
+          py-2 px-4 rounded focus:outline-none
+           focus:shadow-outline text-eastern-blue-50
+           flex flex-col justify-center flex-3 mx-2` }
         >
           {nome}
 
@@ -47,6 +59,12 @@ export default function SellerNavBar({ nome }) {
           data-testid="customer_products__element-navbar-link-logout"
           name="logout"
           onClick={ (e) => redirect(e) }
+          className={ `justify-self-end
+          bg-eastern-blue-500 hover:bg-eastern-blue-400 text-eastern-blue-50 
+          font-bold 
+            py-2 px-4 rounded focus:outline-none  
+             focus:shadow-outline text-eastern-blue-50
+             mx-2` }
         >
           sair
         </button>
